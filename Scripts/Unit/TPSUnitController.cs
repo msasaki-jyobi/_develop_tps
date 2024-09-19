@@ -1,5 +1,7 @@
 ﻿using develop_common;
+using JetBrains.Annotations;
 using RPGCharacterAnims.Actions;
+using RPGCharacterAnims.Lookups;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,23 +54,38 @@ namespace develop_tps
         private Vector3 _tpsVelocity;
         private Quaternion _targetRotation;
         private float _rotateSpeed = 600f;
+        private bool _isNotInputReader;
 
         // private Slope Parameter
         private float _slopeAngle;
 
+        // private KnockedBack
+        private bool isKnockedBack;
+        private Vector3 knockbackDirection;
+        private float knockbackTime = 0.5f; // 吹き飛ばしの時間
+        private float knockbackCounter;
+
         // Key Parameter
         public bool IsJump { private set; get; }
 
-
         private void Start()
         {
+            // Handle InputReader
             _inputReader.MoveEvent += OnMoveHandle;
             _inputReader.LookEvent += OnLookHandle;
             _inputReader.PrimaryFireEvent += OnFireHandle;
             _inputReader.StartedJumpEvent += OnJumpHandle;
             _inputReader.PrimaryDashEvent += OnDashHandle;
 
+            // Handle ActionLoader
+            _unitActionLoader.PlayActionEvent += OnPlayActionHandle;
+            _unitActionLoader.FinishActionEvent += OnFinishActionHandle;
+            _unitActionLoader.FrameFouceEvent += OnFrameFouceHandle;
+            _unitActionLoader.FrameResetVelocityEvent += OnFrameResetVelocityHandle;
+
+            // Init Parameter
             _defaultSpeed = _moveSpeed;
+
 
         }
         private void Update()
@@ -76,15 +93,31 @@ namespace develop_tps
             CheckGround();
 
             //if (_unitStatus.UnitState != EUnitState.Play) return;
+            if (_isNotInputReader) return;
             Rotation();
             Motion();
         }
         private void FixedUpdate()
         {
             // ジャンプ処理
-            FixedJump();
-            //if (_unitStatus.UnitState != EUnitState.Play) return;
-            Move();
+            Jump();
+
+            if (isKnockedBack)
+            {
+                _rigidBody.velocity = new Vector3(knockbackDirection.x, _rigidBody.velocity.y, knockbackDirection.z);
+                knockbackCounter -= Time.fixedDeltaTime;
+
+                if (knockbackCounter <= 0)
+                {
+                    isKnockedBack = false;
+                }
+            }
+            else
+            {
+                if (_isNotInputReader) return;
+                //if (_unitStatus.UnitState != EUnitState.Play) return;
+                Move();
+            }
         }
         private void Move()
         {
@@ -99,10 +132,10 @@ namespace develop_tps
         /// <summary>
         /// ユニットのジャンプを制御
         /// </summary>
-        private void FixedJump()
+        private void Jump()
         {
             if (!IsJump) return;
-            
+
             if (CanJump)
                 _jumpCount = 0;
 
@@ -191,7 +224,48 @@ namespace develop_tps
                 return true;
             }
         }
-
+        /// <summary>
+        /// Velocity knockback
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="force"></param>
+        public void Knockback(Vector3 direction)
+        {
+            // プレイヤーが向いている方向に合わせて力を加える
+            Vector3 localForce = transform.forward * direction.z + transform.right * direction.x + transform.up * direction.y;
+            // Rigidbody に力を加える (Impulse モードで瞬間的に力を加える)
+            _rigidBody.AddForce(localForce, ForceMode.Impulse);
+        }
+        private void OnPlayActionHandle(ActionBase actionBase)
+        {
+            if (actionBase.ActionStart != null)
+            {
+                if (actionBase.ActionStart.IsNotInputReader)
+                    _isNotInputReader = true;
+                if (actionBase.ActionStart.IsResetVelocity)
+                    _rigidBody.velocity = Vector3.zero;
+            }
+        }
+        private void OnFinishActionHandle(ActionBase actionBase)
+        {
+            Debug.Log($"Finish! {actionBase}");
+            if (actionBase != null)
+                if (actionBase.ActionFinish != null)
+                    if (actionBase.ActionFinish.IsActiveInputReader)
+                        _isNotInputReader = false;
+        }
+        private void OnFrameFouceHandle(Vector3 power)
+        {
+            Knockback(power);
+        }
+        private void OnFrameResetVelocityHandle()
+        {
+            Debug.Log("Reset");
+            isKnockedBack = false;
+            knockbackDirection = Vector3.zero;
+            _rigidBody.velocity = Vector3.zero;
+        }
+        
         private void OnMoveHandle(Vector2 movement)
         {
             _InputX = !_isNotVertical ? movement.x : 0;
@@ -217,7 +291,6 @@ namespace develop_tps
         {
             _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
             //KeyType = EKeyType.Dash;
-
         }
     }
 }
