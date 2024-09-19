@@ -2074,6 +2074,9 @@ MonoBehaviour:
   _seAudio: {fileID: 545971497}
   _bgmAudio: {fileID: 1342480065}
   _voiceAudio: {fileID: 478598465}
+  _debugSEs:
+  - {fileID: 8300000, guid: c0c4d683dc880f2489d2c8914c4b21e6, type: 3}
+  - {fileID: 8300000, guid: 99cfd19ef18b1d94eb426bfb19d38c3a, type: 3}
 --- !u!1 &1766395357
 GameObject:
   m_ObjectHideFlags: 0

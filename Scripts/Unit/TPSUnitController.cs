@@ -58,7 +58,7 @@ namespace develop_tps
         private Vector3 _tpsVelocity;
         private Quaternion _targetRotation;
         private float _rotateSpeed = 600f;
-        private bool _isNotInputReader;
+        public bool IsNotInputReader { private set; get; }
 
         // private Slope Parameter
         private float _slopeAngle;
@@ -234,12 +234,12 @@ namespace develop_tps
         public bool IsCheckInputControl()
         {
             bool check = true;
-            if (_isNotInputReader) check = false; // 操作不可
+            if (IsNotInputReader) check = false; // 操作不可
             return check;
         }
         public void ChangeDisableInputControl(bool disable)
         {
-            _isNotInputReader = disable;
+            IsNotInputReader = disable;
         }
         /// <summary>
         /// Velocity knockback
