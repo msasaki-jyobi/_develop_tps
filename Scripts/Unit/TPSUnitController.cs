@@ -1,0 +1,223 @@
+﻿using develop_common;
+using RPGCharacterAnims.Actions;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// https://github.com/msasaki-jyobi/3DGameKitS/blob/feature-student/Assets/_MyProject/Scripts/Input/UnitController.cs#L43
+
+namespace develop_tps
+{
+    public class TPSUnitController : MonoBehaviour
+    {
+        [Header("Components")]
+        [SerializeField] private InputReader _inputReader;
+        [SerializeField] private Camera _camera;
+        [SerializeField] private Rigidbody _rigidBody;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private AnimatorStateController _animatorStateController;
+        [SerializeField] private UnitActionLoader _unitActionLoader;
+
+        [Header("LineDatas")]
+        [SerializeField] private LineData _groundLineData;
+
+        [Header("Input Parameter")]
+        [SerializeField] private float _moveSpeed = 5f;
+        [SerializeField] private float _dashRange = 1.5f;
+        [SerializeField] private int _jumpLimit = 1;
+        [SerializeField] private float _jumpPower = 10f;
+
+        [Header("Gravity")]
+        [SerializeField] private float _addGravity = 600f;
+
+        [Header("Slope Parameter")]
+        [SerializeField] private float _maxSlopeAngle = 45f;
+        [SerializeField] private float _slopeDistance = 0.2f;
+
+        [Header("Ignore Input")]
+        [SerializeField] private bool _isNotVertical;
+        [SerializeField] private bool isNotHorizontal;
+        [SerializeField] private bool isNotJump;
+
+        // Ground Check
+        public bool CanJump { private set; get; }
+
+        // private Parameter
+        private float _defaultSpeed;
+        private int _jumpCount;
+
+        // private Input Parameter
+        private float _InputX;
+        private float _InputY;
+        private Vector3 _tpsVelocity;
+        private Quaternion _targetRotation;
+        private float _rotateSpeed = 600f;
+
+        // private Slope Parameter
+        private float _slopeAngle;
+
+        // Key Parameter
+        public bool IsJump { private set; get; }
+
+
+        private void Start()
+        {
+            _inputReader.MoveEvent += OnMoveHandle;
+            _inputReader.LookEvent += OnLookHandle;
+            _inputReader.PrimaryFireEvent += OnFireHandle;
+            _inputReader.StartedJumpEvent += OnJumpHandle;
+            _inputReader.PrimaryDashEvent += OnDashHandle;
+
+            _defaultSpeed = _moveSpeed;
+
+        }
+        private void Update()
+        {
+            CheckGround();
+
+            //if (_unitStatus.UnitState != EUnitState.Play) return;
+            Rotation();
+            Motion();
+        }
+        private void FixedUpdate()
+        {
+            // ジャンプ処理
+            FixedJump();
+            //if (_unitStatus.UnitState != EUnitState.Play) return;
+            Move();
+        }
+        private void Move()
+        {
+            // 追加重力
+            if (_addGravity > 0)
+                _rigidBody.AddForce(Vector2.down * _addGravity * Time.fixedDeltaTime, ForceMode.Acceleration);
+            //if (_unitStatus.UnitState != EUnitState.Play) return;
+            // 移動処理
+            if (CheckSloopAngle())
+                _rigidBody.velocity = new Vector3(_tpsVelocity.x * _moveSpeed, _rigidBody.velocity.y, _tpsVelocity.z * _moveSpeed);
+        }
+        /// <summary>
+        /// ユニットのジャンプを制御
+        /// </summary>
+        private void FixedJump()
+        {
+            if (!IsJump) return;
+            
+            if (CanJump)
+                _jumpCount = 0;
+
+            if (_jumpCount < _jumpLimit)
+            {
+                // Y軸速度リセット
+                Vector3 velocity = _rigidBody.velocity;
+                velocity.y = 0;
+                _rigidBody.velocity = velocity;
+                // ジャンプ回数加算
+                _jumpCount++;
+                // ジャンプ処理
+                _rigidBody.velocity = Vector3.zero;
+                _rigidBody.AddForce(transform.up * _jumpPower, ForceMode.Impulse);
+
+                // ジャンプ音声
+                //AudioManager.Instance.PlayOneShotClipData(JumpVoice);
+            }
+
+            IsJump = false;
+        }
+
+        private void Rotation()
+        {
+            float rotY = _camera.transform.rotation.eulerAngles.y;
+
+            // カメラから見て方角を決める
+            var tpsHorizontalRotation = Quaternion.AngleAxis(rotY, Vector3.up);
+            _tpsVelocity = tpsHorizontalRotation * new Vector3(_InputX, 0, _InputY).normalized;
+
+            // ユニットの回転処理
+            var rotationSpeed = _rotateSpeed * Time.deltaTime;
+            // 移動方向を向く
+            if (_tpsVelocity.magnitude > 0.5f)
+            {
+                _targetRotation = Quaternion.LookRotation(_tpsVelocity, Vector3.up);
+            }
+            // なめらかに振り向く ここが影響しているNavMesh
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, rotationSpeed);
+        }
+
+        private void Motion()
+        {
+            // 速度をAnimatorに反映する
+            _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
+
+            if (CanJump)
+                _animatorStateController?.ChangeMotion("Locomotion", 30f, EStatePlayType.Loop, false);
+            else
+                _animatorStateController?.ChangeMotion("Jump", 30f, EStatePlayType.Loop, false);
+        }
+
+        private void CheckGround()
+        {
+            CanJump = UtilityFunction.CheckLineData(_groundLineData, transform);
+            //if (!_canJump)
+            //    if (_wallCheckData != null)
+            //        _actionLoader.LoadActionData(new List<UnitActionData>() { _wallCheckData });
+        }
+        /// <summary>
+        /// 角度を検知して移動できるか判定
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public bool CheckSloopAngle()
+        {
+            float maxSlopeAngle = _maxSlopeAngle;
+            float downwardAngle = 25f; // この値を調整して、Rayの下向きの角度を変更
+            Vector3 forwardDown = (transform.forward - Vector3.up * Mathf.Tan(downwardAngle * Mathf.Deg2Rad)).normalized;
+            Ray ray = new Ray(transform.position + Vector3.up * 0.1f, forwardDown);
+
+            float rayDistance = _slopeDistance; // Rayの長さ
+            Color rayColor = Color.blue; // Rayの色
+            Debug.DrawRay(ray.origin, ray.direction * rayDistance, rayColor);
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, rayDistance))
+            {
+                float angle = Vector3.Angle(hit.normal, Vector3.up);
+                _slopeAngle = angle;
+                return angle <= maxSlopeAngle ? true : false;
+            }
+            else
+            {
+                _slopeAngle = 0;
+                return true;
+            }
+        }
+
+        private void OnMoveHandle(Vector2 movement)
+        {
+            _InputX = !_isNotVertical ? movement.x : 0;
+            _InputY = !isNotHorizontal ? movement.y : 0;
+        }
+        private void OnLookHandle(Vector2 lookValue)
+        {
+            //Debug.Log($"Look:{lookValue}");
+        }
+        private void OnFireHandle(bool fire)
+        {
+            //Debug.Log($"Fire:{fire}");
+            //KeyType = EKeyType.Fire1;
+            //_actionLoader.LoadActionData();
+        }
+        private void OnJumpHandle()
+        {
+            //Debug.Log("Jump!!");
+            IsJump = !isNotJump ? true : false;
+            //KeyType = EKeyType.Jump;
+        }
+        private void OnDashHandle(bool dash)
+        {
+            _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
+            //KeyType = EKeyType.Dash;
+
+        }
+    }
+}
