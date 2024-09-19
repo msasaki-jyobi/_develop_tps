@@ -38,8 +38,12 @@ namespace develop_tps
 
         [Header("Ignore Input")]
         [SerializeField] private bool _isNotVertical;
-        [SerializeField] private bool isNotHorizontal;
-        [SerializeField] private bool isNotJump;
+        [SerializeField] private bool _isNotHorizontal;
+        [SerializeField] private bool _isNotJump;
+
+        [Header("Motion")]
+        public string LocomotionStateName = "Locomotion";
+        public string JumpStateName = "Jump";
 
         // Ground Check
         public bool CanJump { private set; get; }
@@ -90,10 +94,12 @@ namespace develop_tps
         }
         private void Update()
         {
-            CheckGround();
+            // 現在のデバイスを取得する
+            //Debug.Log($"Now Control: {_inputReader.GetCurrentInputDevice()}");
 
+            CheckGround();
+            if (!IsCheckInputControl()) return;
             //if (_unitStatus.UnitState != EUnitState.Play) return;
-            if (_isNotInputReader) return;
             Rotation();
             Motion();
         }
@@ -114,7 +120,7 @@ namespace develop_tps
             }
             else
             {
-                if (_isNotInputReader) return;
+                if (!IsCheckInputControl()) return;
                 //if (_unitStatus.UnitState != EUnitState.Play) return;
                 Move();
             }
@@ -134,6 +140,7 @@ namespace develop_tps
         /// </summary>
         private void Jump()
         {
+            if (!IsCheckInputControl()) return;
             if (!IsJump) return;
 
             if (CanJump)
@@ -183,9 +190,9 @@ namespace develop_tps
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
 
             if (CanJump)
-                _animatorStateController?.ChangeMotion("Locomotion", 30f, EStatePlayType.Loop, false);
+                _animatorStateController?.ChangeMotion(LocomotionStateName, 30f, EStatePlayType.Loop, false);
             else
-                _animatorStateController?.ChangeMotion("Jump", 30f, EStatePlayType.Loop, false);
+                _animatorStateController?.ChangeMotion(JumpStateName, 30f, EStatePlayType.Loop, false);
         }
 
         private void CheckGround()
@@ -224,6 +231,16 @@ namespace develop_tps
                 return true;
             }
         }
+        public bool IsCheckInputControl()
+        {
+            bool check = true;
+            if (_isNotInputReader) check = false; // 操作不可
+            return check;
+        }
+        public void ChangeDisableInputControl(bool disable)
+        {
+            _isNotInputReader = disable;
+        }
         /// <summary>
         /// Velocity knockback
         /// </summary>
@@ -236,14 +253,15 @@ namespace develop_tps
             // Rigidbody に力を加える (Impulse モードで瞬間的に力を加える)
             _rigidBody.AddForce(localForce, ForceMode.Impulse);
         }
+
         private void OnPlayActionHandle(ActionBase actionBase)
         {
             if (actionBase.ActionStart != null)
             {
                 if (actionBase.ActionStart.IsNotInputReader)
-                    _isNotInputReader = true;
+                    ChangeDisableInputControl(true);
                 if (actionBase.ActionStart.IsResetVelocity)
-                    _rigidBody.velocity = Vector3.zero;
+                    OnFrameResetVelocityHandle();
             }
         }
         private void OnFinishActionHandle(ActionBase actionBase)
@@ -252,7 +270,7 @@ namespace develop_tps
             if (actionBase != null)
                 if (actionBase.ActionFinish != null)
                     if (actionBase.ActionFinish.IsActiveInputReader)
-                        _isNotInputReader = false;
+                        ChangeDisableInputControl(false);
         }
         private void OnFrameFouceHandle(Vector3 power)
         {
@@ -263,13 +281,14 @@ namespace develop_tps
             Debug.Log("Reset");
             isKnockedBack = false;
             knockbackDirection = Vector3.zero;
+            knockbackCounter = 0;
             _rigidBody.velocity = Vector3.zero;
         }
-        
+
         private void OnMoveHandle(Vector2 movement)
         {
             _InputX = !_isNotVertical ? movement.x : 0;
-            _InputY = !isNotHorizontal ? movement.y : 0;
+            _InputY = !_isNotHorizontal ? movement.y : 0;
         }
         private void OnLookHandle(Vector2 lookValue)
         {
@@ -284,7 +303,7 @@ namespace develop_tps
         private void OnJumpHandle()
         {
             //Debug.Log("Jump!!");
-            IsJump = !isNotJump ? true : false;
+            IsJump = !_isNotJump ? true : false;
             //KeyType = EKeyType.Jump;
         }
         private void OnDashHandle(bool dash)

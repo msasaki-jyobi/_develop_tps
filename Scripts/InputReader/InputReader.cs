@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputReader_TPS;
 using static UnityEngine.InputSystem.DefaultInputActions;
+using System.Linq;
+using UnityEngine.InputSystem.Utilities;
 
 namespace develop_tps
 {
@@ -25,6 +27,9 @@ namespace develop_tps
 
         private InputReader_TPS _control;
 
+        public event Action<string> OnChangeDevice;
+        private string _lastInputDevice;
+
         private void OnEnable()
         {
             if (_control == null)
@@ -34,6 +39,27 @@ namespace develop_tps
             }
 
             _control.Player.Enable();
+            InputSystem.onAnyButtonPress.Call(OnAnyButtonPress);
+        }
+        private void OnAnyButtonPress(InputControl control)
+        {
+            if (control.device is Gamepad)
+            {
+                _lastInputDevice = "Gamepad";
+            }
+            else if (control.device is Keyboard)
+            {
+                _lastInputDevice = "Keyboard";
+            }
+            else if (control.device is Mouse)
+            {
+                _lastInputDevice = "Mouse";
+            }
+            else
+            {
+                _lastInputDevice = control.device.name;
+            }
+            OnChangeDevice?.Invoke(_lastInputDevice);
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -123,7 +149,10 @@ namespace develop_tps
         {
             return _control.asset.FindActionMap("Player").actions;
         }
-
-
+        // 入力デバイスを判定するメソッド
+        public string GetCurrentInputDevice()
+        {
+            return _lastInputDevice ?? "Unknown";
+        }
     }
 }
