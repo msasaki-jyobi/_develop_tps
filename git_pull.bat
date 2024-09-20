@@ -5,12 +5,12 @@ set scriptdir=%~dp0
 :: プロジェクトディレクトリに移動
 cd /d "%scriptdir%"
 
-:: 作業内容を取り消してリセット
-git reset --hard
-git clean -fd
+:: ローカル変更の取り消し
+git fetch origin
+git reset --hard origin/main
 
-:: 最新の変更を取得
-git pull
+:: リモートの最新の変更を取得
+git pull origin main
 
 :: 終了メッセージ
 echo Pull completed. Your repository is up to date.
