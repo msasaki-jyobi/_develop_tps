@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca0c9e36d5e93a4fab7ac711f963215, type: 3}
+  m_Name: ThrowCatalog
+  m_EditorClassIdentifier: 
+  Throws:
+  - ThrowActionData: "\u30B8\u30E3\u30F3\u30D7\u6295\u3052"
+    ThrowID: 100
+    DownID: 1
+    frames: 3A, 4F, 1F, 1D
