@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea96b67bab21c61469874744c53620f1, type: 3}
-  m_Name: RecoveryCatalog
+  m_Script: {fileID: 11500000, guid: b40c57d49c21d934f99a95b6aec6f4c4, type: 3}
+  m_Name: DownCatalog Normal
   m_EditorClassIdentifier: 
-  Recoverys:
-  - DamageStateName: ForwardGetUp
-    RecoveryID: 1
-  - DamageStateName: BackGetUp
-    RecoveryID: 2
-  - DamageStateName: "\u8D77\u304D\u4E0A\u304C\u308A"
-    RecoveryID: 3
+  PrimaryIDName: DoNormal
+  Downs:
+  - DownStateName: DownA
+    DownID: 1
+    RecoveryID: 0
