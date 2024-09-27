@@ -190,9 +190,9 @@ namespace develop_tps
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
 
             if (CanJump)
-                _animatorStateController?.ChangeMotion(LocomotionStateName, 30f, EStatePlayType.Loop, false);
+                _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
             else
-                _animatorStateController?.ChangeMotion(JumpStateName, 30f, EStatePlayType.Loop, false);
+                _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.Loop, false);
         }
 
         private void CheckGround()

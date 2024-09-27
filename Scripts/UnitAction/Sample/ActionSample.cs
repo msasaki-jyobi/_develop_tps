@@ -68,7 +68,7 @@ namespace develop_common
                     Debug.Log($"{parameterName}, {value} Hello StartÅI");
                     if (TryGetComponent<AnimatorStateController>(out var controller))
                     {
-                        controller.ChangeMotion("State1", 30, EStatePlayType.SinglePlay, false);
+                        controller.StatePlay("State1", EStatePlayType.SinglePlay, false);
                     }
                     if (TryGetComponent<TPSUnitController>(out var controller2))
                     {
@@ -86,7 +86,7 @@ namespace develop_common
                     Debug.Log($"{parameterName}, {value} Get FinishÅI");
                     if (TryGetComponent<AnimatorStateController>(out var controller0))
                     {
-                        controller0.ChangeMotion("State1", 30, EStatePlayType.SinglePlay, false);
+                        controller0.StatePlay("State1", EStatePlayType.SinglePlay, false);
                     }
                     if (TryGetComponent<TPSUnitController>(out var controller))
                     {
