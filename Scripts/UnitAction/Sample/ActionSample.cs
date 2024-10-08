@@ -31,19 +31,18 @@ namespace develop_common
             if (Input.GetKeyDown(KeyCode.C))
             {
                 if (TryGetComponent<TPSUnitController>(out var unitController))
-                {
                     if (unitController.IsNotInputReader) return;
-                    _unitActionLoader.LoadAction(_actionDataC);
 
-                }
+                _unitActionLoader.LoadAction(_actionDataC);
+
             }
+
             if (Input.GetKeyDown(KeyCode.X))
             {
                 if (TryGetComponent<TPSUnitController>(out var unitController))
-                {
                     if (unitController.IsNotInputReader) return;
-                    _unitActionLoader.LoadAction(_actionDataX);
-                }
+                _unitActionLoader.LoadAction(_actionDataX);
+
             }
         }
 
