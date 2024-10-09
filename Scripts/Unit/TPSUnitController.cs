@@ -30,7 +30,8 @@ namespace develop_tps
         [SerializeField] private float _dashRange = 1.5f;
         [SerializeField] private int _jumpLimit = 1;
         [SerializeField] private float _jumpPower = 10f;
-        [SerializeField] private float _crouchChangeTime = 0.2f;
+        [SerializeField] private float _crouchSpeed = 2f;
+        [SerializeField] private float _crouchCrossTime = 0.2f;
 
         [Header("Gravity")]
         [SerializeField] private float _addGravity = 600f;
@@ -43,6 +44,14 @@ namespace develop_tps
         [SerializeField] private bool _isNotVertical;
         [SerializeField] private bool _isNotHorizontal;
         [SerializeField] private bool _isNotJump;
+        [SerializeField] private bool _isNotCrouth;
+
+        [Header("Capsule Size")]
+        [SerializeField] private CapsuleCollider _capsuleCollider;
+        [SerializeField] private float _standCenterY = 0.92f;
+        [SerializeField] private float _standHeight = 1.8f;
+        [SerializeField] private float _crouthCenterY = 0.68f;
+        [SerializeField] private float _crouthHeight = 1.33f;
 
         [Header("Motion")]
         public string LocomotionStateName = "Locomotion";
@@ -94,18 +103,23 @@ namespace develop_tps
 
             // Init Parameter
             _defaultSpeed = _moveSpeed;
-            _defaultCrouchSpeed = _moveSpeed / 3;
+            _defaultCrouchSpeed = _crouchSpeed;
 
             _isCrouth
-                .Subscribe((x) => {
+                .Subscribe((x) =>
+                {
                     var targetWeight = x ? 1 : 0;
-                    _moveSpeed = x ? _defaultCrouchSpeed : _defaultSpeed;
+                    var centerY = x ? _crouthCenterY : _standCenterY;
+                    var height = x ? _crouthHeight : _standHeight;
 
+                    _moveSpeed = x ? _defaultCrouchSpeed : _defaultSpeed;
+                    _capsuleCollider.center = new Vector3(0, centerY, 0);
+                    _capsuleCollider.height = height;
                     // DoTweenを使って0.2秒かけてweightを変更
                     DOTween.To(() => _animator.GetLayerWeight(2),
                                value => _animator.SetLayerWeight(2, value),
                                targetWeight,
-                               _crouchChangeTime);
+                               _crouchCrossTime);
                 });
         }
         private void Update()
@@ -119,8 +133,9 @@ namespace develop_tps
             Rotation();
             Motion();
 
-            if (Input.GetKeyDown(KeyCode.C))
-                _isCrouth.Value = !_isCrouth.Value;
+            if (!_isNotCrouth)
+                if (Input.GetKeyDown(KeyCode.C))
+                    _isCrouth.Value = !_isCrouth.Value;
 
         }
         private void FixedUpdate()
@@ -208,7 +223,7 @@ namespace develop_tps
         {
             // 速度をAnimatorに反映する
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
-            
+
             return;
             if (CanJump)
                 _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
@@ -329,7 +344,7 @@ namespace develop_tps
         }
         private void OnDashHandle(bool dash)
         {
-            if(!_isCrouth.Value)
+            if (!_isCrouth.Value)
                 _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
             else
                 _moveSpeed = dash ? _defaultCrouchSpeed * _dashRange : _defaultCrouchSpeed;
