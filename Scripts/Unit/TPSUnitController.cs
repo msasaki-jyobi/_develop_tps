@@ -1,9 +1,11 @@
 ﻿using develop_common;
+using DG.Tweening;
 using JetBrains.Annotations;
 using RPGCharacterAnims.Actions;
 using RPGCharacterAnims.Lookups;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 // https://github.com/msasaki-jyobi/3DGameKitS/blob/feature-student/Assets/_MyProject/Scripts/Input/UnitController.cs#L43
@@ -28,6 +30,7 @@ namespace develop_tps
         [SerializeField] private float _dashRange = 1.5f;
         [SerializeField] private int _jumpLimit = 1;
         [SerializeField] private float _jumpPower = 10f;
+        [SerializeField] private float _crouchChangeTime = 0.2f;
 
         [Header("Gravity")]
         [SerializeField] private float _addGravity = 600f;
@@ -50,6 +53,7 @@ namespace develop_tps
 
         // private Parameter
         private float _defaultSpeed;
+        private float _defaultCrouchSpeed;
         private int _jumpCount;
 
         // private Input Parameter
@@ -71,6 +75,7 @@ namespace develop_tps
 
         // Key Parameter
         public bool IsJump { private set; get; }
+        private ReactiveProperty<bool> _isCrouth = new ReactiveProperty<bool>();
 
         private void Start()
         {
@@ -89,8 +94,19 @@ namespace develop_tps
 
             // Init Parameter
             _defaultSpeed = _moveSpeed;
+            _defaultCrouchSpeed = _moveSpeed / 3;
 
+            _isCrouth
+                .Subscribe((x) => {
+                    var targetWeight = x ? 1 : 0;
+                    _moveSpeed = x ? _defaultCrouchSpeed : _defaultSpeed;
 
+                    // DoTweenを使って0.2秒かけてweightを変更
+                    DOTween.To(() => _animator.GetLayerWeight(2),
+                               value => _animator.SetLayerWeight(2, value),
+                               targetWeight,
+                               _crouchChangeTime);
+                });
         }
         private void Update()
         {
@@ -102,6 +118,10 @@ namespace develop_tps
             //if (_unitStatus.UnitState != EUnitState.Play) return;
             Rotation();
             Motion();
+
+            if (Input.GetKeyDown(KeyCode.C))
+                _isCrouth.Value = !_isCrouth.Value;
+
         }
         private void FixedUpdate()
         {
@@ -188,7 +208,8 @@ namespace develop_tps
         {
             // 速度をAnimatorに反映する
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
-
+            
+            return;
             if (CanJump)
                 _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
             else
@@ -308,7 +329,12 @@ namespace develop_tps
         }
         private void OnDashHandle(bool dash)
         {
-            _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
+            if(!_isCrouth.Value)
+                _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
+            else
+                _moveSpeed = dash ? _defaultCrouchSpeed * _dashRange : _defaultCrouchSpeed;
+
+
             //KeyType = EKeyType.Dash;
         }
     }
