@@ -17,6 +17,7 @@ namespace develop_tps
         public event Action<Vector2> MoveEvent; // 移動値
         public event Action<Vector2> LookEvent;
         public event Action<bool> PrimaryFireEvent; // 射撃用
+        public event Action<bool> PrimaryJumpEventEvent; // ジャンプ
         public event Action<bool> PrimarySubFireEvent; // Aim
         public event Action StartedJumpEvent;
         public event Action<bool> PrimaryDashEvent;
@@ -85,7 +86,12 @@ namespace develop_tps
         public void OnJump(InputAction.CallbackContext context)
         {
             if (context.started)
+            {
                 StartedJumpEvent?.Invoke();
+                PrimaryJumpEventEvent?.Invoke(true);
+            }
+            else if (context.canceled)
+                PrimaryJumpEventEvent?.Invoke(false);
         }
         public void OnDash(InputAction.CallbackContext context)
         {

@@ -21,6 +21,7 @@ namespace develop_tps
         [SerializeField] private Animator _animator;
         [SerializeField] private AnimatorStateController _animatorStateController;
         [SerializeField] private UnitActionLoader _unitActionLoader;
+        [SerializeField] private TPSCliffUp _tpsCliffUp;
 
         [Header("LineDatas")]
         [SerializeField] private LineData _groundLineData;
@@ -85,6 +86,7 @@ namespace develop_tps
         // Key Parameter
         public bool IsJump { private set; get; }
         private ReactiveProperty<bool> _isCrouth = new ReactiveProperty<bool>();
+        private bool _isClimb;
 
         private void Start()
         {
@@ -92,7 +94,7 @@ namespace develop_tps
             _inputReader.MoveEvent += OnMoveHandle;
             _inputReader.LookEvent += OnLookHandle;
             _inputReader.PrimaryFireEvent += OnFireHandle;
-            _inputReader.StartedJumpEvent += OnJumpHandle;
+            _inputReader.PrimaryJumpEventEvent += OnJumpHandle;
             _inputReader.PrimaryDashEvent += OnDashHandle;
 
             // Handle ActionLoader
@@ -101,6 +103,9 @@ namespace develop_tps
             _unitActionLoader.FrameFouceEvent += OnFrameFouceHandle;
             _unitActionLoader.FrameResetVelocityEvent += OnFrameResetVelocityHandle;
 
+            // Handle Motion
+            _animatorStateController.FinishMotionEvent += OnFinishMotionHandle;
+
             // Init Parameter
             _defaultSpeed = _moveSpeed;
             _defaultCrouchSpeed = _crouchSpeed;
@@ -108,6 +113,8 @@ namespace develop_tps
             _isCrouth
                 .Subscribe((x) =>
                 {
+                    if (_isNotCrouth) return;
+
                     var targetWeight = x ? 1 : 0;
                     var centerY = x ? _crouthCenterY : _standCenterY;
                     var height = x ? _crouthHeight : _standHeight;
@@ -224,6 +231,19 @@ namespace develop_tps
             // 速度をAnimatorに反映する
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
 
+            if (_tpsCliffUp != null)
+                if (_tpsCliffUp.CheckCliffUp())
+                    if (!_isClimb)
+                    {
+                        _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
+                        _rigidBody.velocity = Vector3.zero;
+                        _isClimb = true;
+
+                        // 操作不可
+                        IsNotInputReader = true;
+                        _rigidBody.isKinematic = true;
+                    }
+
             return;
             if (CanJump)
                 _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
@@ -308,6 +328,20 @@ namespace develop_tps
                     if (actionBase.ActionFinish.IsActiveInputReader)
                         ChangeDisableInputControl(false);
         }
+
+        private void OnFinishMotionHandle(string stateName, bool flg)
+        {
+            if (stateName == "ClimbUp")
+            {
+                _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, true, false);
+                _isClimb = false;
+
+                // 操作可能
+                IsNotInputReader = false;
+                _rigidBody.isKinematic = false;
+            }
+        }
+
         private void OnFrameFouceHandle(Vector3 power)
         {
             Knockback(power);
@@ -336,10 +370,10 @@ namespace develop_tps
             //KeyType = EKeyType.Fire1;
             //_actionLoader.LoadActionData();
         }
-        private void OnJumpHandle()
+        private void OnJumpHandle(bool jump)
         {
-            //Debug.Log("Jump!!");
-            IsJump = !_isNotJump ? true : false;
+            if (_isNotJump) return;
+            IsJump = jump;
             //KeyType = EKeyType.Jump;
         }
         private void OnDashHandle(bool dash)
