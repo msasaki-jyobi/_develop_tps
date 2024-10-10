@@ -72,7 +72,6 @@ namespace develop_tps
         private Vector3 _tpsVelocity;
         private Quaternion _targetRotation;
         private float _rotateSpeed = 600f;
-        public bool IsNotInputReader { private set; get; }
 
         // private Slope Parameter
         private float _slopeAngle;
@@ -233,14 +232,14 @@ namespace develop_tps
 
             if (_tpsCliffUp != null)
                 if (_tpsCliffUp.CheckCliffUp())
-                    if (!_isClimb)
+                    if (!_isClimb && _unitActionLoader.UnitStatus == EUnitStatus.Ready)
                     {
                         _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
                         _rigidBody.velocity = Vector3.zero;
                         _isClimb = true;
 
                         // 操作不可
-                        IsNotInputReader = true;
+                        _unitActionLoader.ChangeStatus(EUnitStatus.Executing);
                         _rigidBody.isKinematic = true;
                     }
 
@@ -290,12 +289,9 @@ namespace develop_tps
         public bool IsCheckInputControl()
         {
             bool check = true;
-            if (IsNotInputReader) check = false; // 操作不可
+            //if (IsNotInputReader) check = false; // 操作不可
+            if (_unitActionLoader.UnitStatus == EUnitStatus.Executing) check = false;
             return check;
-        }
-        public void ChangeDisableInputControl(bool disable)
-        {
-            IsNotInputReader = disable;
         }
         /// <summary>
         /// Velocity knockback
@@ -314,8 +310,6 @@ namespace develop_tps
         {
             if (actionBase.ActionStart != null)
             {
-                if (actionBase.ActionStart.IsNotInputReader)
-                    ChangeDisableInputControl(true);
                 if (actionBase.ActionStart.IsResetVelocity)
                     OnFrameResetVelocityHandle();
             }
@@ -323,10 +317,6 @@ namespace develop_tps
         private void OnFinishActionHandle(ActionBase actionBase)
         {
             Debug.Log($"Finish! {actionBase}");
-            if (actionBase != null)
-                if (actionBase.ActionFinish != null)
-                    if (actionBase.ActionFinish.IsActiveInputReader)
-                        ChangeDisableInputControl(false);
         }
 
         private void OnFinishMotionHandle(string stateName, bool flg)
@@ -337,7 +327,7 @@ namespace develop_tps
                 _isClimb = false;
 
                 // 操作可能
-                IsNotInputReader = false;
+                _unitActionLoader.ChangeStatus(EUnitStatus.Ready);
                 _rigidBody.isKinematic = false;
             }
         }

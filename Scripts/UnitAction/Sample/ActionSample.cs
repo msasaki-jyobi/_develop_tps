@@ -30,19 +30,12 @@ namespace develop_common
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (TryGetComponent<TPSUnitController>(out var unitController))
-                    if (unitController.IsNotInputReader) return;
-
                 _unitActionLoader.LoadAction(_actionDataC);
-
             }
 
             if (Input.GetKeyDown(KeyCode.X))
             {
-                if (TryGetComponent<TPSUnitController>(out var unitController))
-                    if (unitController.IsNotInputReader) return;
                 _unitActionLoader.LoadAction(_actionDataX);
-
             }
         }
 
@@ -50,13 +43,13 @@ namespace develop_common
         {
             // 移動できるバグの原因
             return;
-            if (Mathf.Abs(movement.x + movement.y) == 1)
-            {
-                DownValue--;
-                if (DownValue <= 0)
-                    if (TryGetComponent<TPSUnitController>(out var controller))
-                        controller.ChangeDisableInputControl(false);
-            }
+            //if (Mathf.Abs(movement.x + movement.y) == 1)
+            //{
+            //    DownValue--;
+            //    if (DownValue <= 0)
+            //        if (TryGetComponent<TPSUnitController>(out var controller))
+            //            controller.ChangeDisableInputControl(false);
+            //}
         }
 
         private void OnStartAdditiveParameterHandle(string parameterName, int value)
@@ -67,7 +60,7 @@ namespace develop_common
                     Debug.Log($"{parameterName}, {value} Hello Start！");
                     if (TryGetComponent<AnimatorStateController>(out var controller))
                     {
-                        controller.StatePlay("State1", EStatePlayType.SinglePlay, false);
+                        //controller.StatePlay("State1", EStatePlayType.SinglePlay, false);
                     }
                     if (TryGetComponent<TPSUnitController>(out var controller2))
                     {
@@ -85,7 +78,7 @@ namespace develop_common
                     Debug.Log($"{parameterName}, {value} Get Finish！");
                     if (TryGetComponent<AnimatorStateController>(out var controller0))
                     {
-                        controller0.StatePlay("State1", EStatePlayType.SinglePlay, false);
+                        //controller0.StatePlay("State1", EStatePlayType.SinglePlay, false);
                     }
                     if (TryGetComponent<TPSUnitController>(out var controller))
                     {

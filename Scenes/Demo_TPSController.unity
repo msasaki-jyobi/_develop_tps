@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateController: {fileID: 680506945}
-  UnitStatus: 1
+  UnitStatus: 0
 --- !u!114 &680506949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1561,7 +1561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: 2938829d6e1a3e74d87d827e31978bfc, type: 2}
   _unitActionLoader: {fileID: 680506948}
-  _actionDataC: {fileID: 867914962149053577, guid: fd6600b73ce9ac24d8355c977c2f0f02,
+  _actionDataC: {fileID: 867914962149053577, guid: 2df4b6ee50079534193a729241131afb,
     type: 3}
   _actionDataX: {fileID: 0}
   DownValue: 0
