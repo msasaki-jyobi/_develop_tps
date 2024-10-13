@@ -29,10 +29,12 @@ namespace develop_tps
         [Header("Input Parameter")]
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _dashRange = 1.5f;
+        [SerializeField] private float _stamina = 10f;
         [SerializeField] private int _jumpLimit = 1;
         [SerializeField] private float _jumpPower = 10f;
         [SerializeField] private float _crouchSpeed = 2f;
         [SerializeField] private float _crouchCrossTime = 0.2f;
+
 
         [Header("Gravity")]
         [SerializeField] private float _addGravity = 600f;
@@ -75,6 +77,7 @@ namespace develop_tps
 
         // private Slope Parameter
         private float _slopeAngle;
+        private float _staminaTimer;
 
         // private KnockedBack
         private bool isKnockedBack;
@@ -86,6 +89,9 @@ namespace develop_tps
         public bool IsJump { private set; get; }
         private ReactiveProperty<bool> _isCrouth = new ReactiveProperty<bool>();
         private bool _isClimb;
+        private bool _isDash;
+
+
 
         private void Start()
         {
@@ -127,9 +133,16 @@ namespace develop_tps
                                targetWeight,
                                _crouchCrossTime);
                 });
+
+            // Stamina
+            _staminaTimer = _stamina;
         }
         private void Update()
         {
+            if (_rigidBody.isKinematic)
+                return;
+
+
             // 現在のデバイスを取得する
             //Debug.Log($"Now Control: {_inputReader.GetCurrentInputDevice()}");
 
@@ -142,6 +155,18 @@ namespace develop_tps
             if (!_isNotCrouth)
                 if (Input.GetKeyDown(KeyCode.C))
                     _isCrouth.Value = !_isCrouth.Value;
+
+            // Stamina
+            if (_staminaTimer >= 0 && (_InputX != 0 || _InputY != 0) && _isDash)
+                _staminaTimer -= Time.deltaTime;
+            else if (_staminaTimer <= _stamina)
+                _staminaTimer += Time.deltaTime;
+            if (_staminaTimer <= 0)
+            {
+                _staminaTimer = 0;
+                _moveSpeed = _isCrouth.Value ? _defaultCrouchSpeed : _defaultSpeed;
+            }
+
 
         }
         private void FixedUpdate()
@@ -368,10 +393,15 @@ namespace develop_tps
         }
         private void OnDashHandle(bool dash)
         {
+            _isDash = dash;
             if (!_isCrouth.Value)
                 _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
             else
                 _moveSpeed = dash ? _defaultCrouchSpeed * _dashRange : _defaultCrouchSpeed;
+
+
+
+
 
 
             //KeyType = EKeyType.Dash;
