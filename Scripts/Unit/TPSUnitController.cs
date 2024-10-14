@@ -3,6 +3,7 @@ using DG.Tweening;
 using JetBrains.Annotations;
 using RPGCharacterAnims.Actions;
 using RPGCharacterAnims.Lookups;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -30,6 +31,7 @@ namespace develop_tps
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _dashRange = 1.5f;
         [SerializeField] private float _stamina = 10f;
+        [SerializeField] private float _staminaHealSpeed = 1f;
         [SerializeField] private int _jumpLimit = 1;
         [SerializeField] private float _jumpPower = 10f;
         [SerializeField] private float _crouchSpeed = 2f;
@@ -91,7 +93,7 @@ namespace develop_tps
         private bool _isClimb;
         private bool _isDash;
 
-
+        public event Action<float, float> StaminaUpdateEvent;
 
         private void Start()
         {
@@ -160,14 +162,14 @@ namespace develop_tps
             if (_staminaTimer >= 0 && (_InputX != 0 || _InputY != 0) && _isDash)
                 _staminaTimer -= Time.deltaTime;
             else if (_staminaTimer <= _stamina)
-                _staminaTimer += Time.deltaTime;
+                _staminaTimer += Time.deltaTime * _staminaHealSpeed;
             if (_staminaTimer <= 0)
             {
                 _staminaTimer = 0;
                 _moveSpeed = _isCrouth.Value ? _defaultCrouchSpeed : _defaultSpeed;
             }
 
-
+            StaminaUpdateEvent?.Invoke(_staminaTimer, _stamina);
         }
         private void FixedUpdate()
         {
@@ -398,13 +400,9 @@ namespace develop_tps
                 _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
             else
                 _moveSpeed = dash ? _defaultCrouchSpeed * _dashRange : _defaultCrouchSpeed;
-
-
-
-
-
-
             //KeyType = EKeyType.Dash;
         }
+
+
     }
 }
