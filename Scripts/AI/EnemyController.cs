@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
 
         if(_timer > _span)
         {
-            int ran = Random.Range(0, 4);
+            int ran = Random.Range(0,3);
             _aiID = ran;
             _timer = 0;
             _isAction = false;
@@ -32,37 +32,31 @@ public class EnemyController : MonoBehaviour
         switch (_aiID)
         {
             case 0:
-                Wait();
+                Look();
                 break;
             case 1:
-                Dash();
+                DistanceSkillPlay();
                 break;
             case 2:
-                SkillAction();
-                break;
-            case 3:
-                Look();
+                RandomSkillPlay();
                 break;
         }
     }
 
-    private void Wait()
-    {
-
-    }
-
     private void Dash()
     {
+        var targetDistance = Vector3.Distance(transform.position, _target.transform.position);
+        if (targetDistance <= 0.1f) return;
+
         transform.LookAt(_target.transform, transform.up);
         transform.Translate(0, 0, 3 * Time.deltaTime);
     }
 
-    private void SkillAction()
+    private void RandomSkillPlay()
     {
-        if(!_isAction)
+        if (!_isAction)
         {
-            var skill = SearchSkill(3f);
-
+            var skill = SearchSkill(100f);
             if (skill != null)
             {
                 _isAction = true;
@@ -70,6 +64,26 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+
+    private void DistanceSkillPlay()
+    {
+        if (!_isAction)
+        {
+            var targetDistance = Vector3.Distance(transform.position, _target.transform.position);
+            var skill = SearchSkill(targetDistance);
+
+            if (skill != null)
+            {
+                _isAction = true;
+                _actionLoader.LoadAction(skill.SkillAction);
+            }
+            else
+            {
+                Dash();
+            }
+        }
+    }
+
 
     /// <summary>
     /// ”­“®ƒXƒLƒ‹‚ðˆê‚Â‘I’è‚·‚é
@@ -98,6 +112,7 @@ public class EnemyController : MonoBehaviour
             return null;
         }
     }
+
 
     private void Look()
     {

@@ -5181,8 +5181,13 @@ MonoBehaviour:
   _actionLoader: {fileID: 1586431310}
   _span: 3
   _aiID: 0
-  ActionObjects:
-  - {fileID: 867914962149053577, guid: 2df4b6ee50079534193a729241131afb, type: 3}
+  SkillActions:
+  - Distance: 1
+    SkillAction: {fileID: 867914962149053577, guid: 2df4b6ee50079534193a729241131afb,
+      type: 3}
+  - Distance: 1
+    SkillAction: {fileID: 867914962149053577, guid: 6104cbc989f78644c8782b1273f03e60,
+      type: 3}
 --- !u!114 &1586431308
 MonoBehaviour:
   m_ObjectHideFlags: 0
