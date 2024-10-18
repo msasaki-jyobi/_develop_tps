@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private GameObject _target;
+    public GameObject Target;
+    public Animator Animator;
     [SerializeField] private UnitActionLoader _actionLoader;
     [SerializeField] private float _span = 3f;
     [SerializeField] private int _aiID = 0;
@@ -17,13 +18,63 @@ public class EnemyController : MonoBehaviour
     private float _timer;
     private bool _isAction;
 
+    private void Start()
+    {
+        if (Target == null)
+            Target = GameObject.Find("Player");
+    }
+
     private void Update()
     {
         _timer += Time.deltaTime;
 
-        if(_timer > _span)
+        //if(_timer > _span)
+        //{
+        //    int ran = Random.Range(0,3);
+        //    _aiID = ran;
+        //    _timer = 0;
+        //    _isAction = false;
+        //}
+
+        if(_timer > 0 && _timer <= 2)
         {
-            int ran = Random.Range(0,3);
+            _isAction = false;
+            Animator.SetFloat("Blend", 1f);
+            Look();
+            transform.Translate(0, 0, 3 * Time.deltaTime);
+        }
+        else if (_timer > 2 && _timer <= 4)
+        {
+            Animator.SetFloat("Blend", 0f);
+        }
+        else if (_timer > 4 && _timer <= 6)
+        {
+            if (!_isAction)
+            {
+                var skill = SearchSkill(100f);
+                if (skill != null)
+                {
+                    _isAction = true;
+                    _timer = 0;
+
+                    Animator.SetFloat("Blend", 0f);
+                    _actionLoader.LoadAction(skill.SkillAction);
+                }
+            }
+        }
+        else
+        {
+            _timer = 0;
+        }
+    }
+
+    private void UpdateTest()
+    {
+        _timer += Time.deltaTime;
+
+        if (_timer > _span)
+        {
+            int ran = Random.Range(0, 3);
             _aiID = ran;
             _timer = 0;
             _isAction = false;
@@ -45,11 +96,16 @@ public class EnemyController : MonoBehaviour
 
     private void Dash()
     {
-        var targetDistance = Vector3.Distance(transform.position, _target.transform.position);
-        if (targetDistance <= 0.1f) return;
 
-        transform.LookAt(_target.transform, transform.up);
+        var targetDistance = Vector3.Distance(transform.position, Target.transform.position);
+        if (targetDistance <= 0.1f)
+        {
+            Animator.SetFloat("Blend", 0f);
+            return;
+        }
+        Look();
         transform.Translate(0, 0, 3 * Time.deltaTime);
+        Animator.SetFloat("Blend", 1f);
     }
 
     private void RandomSkillPlay()
@@ -61,27 +117,29 @@ public class EnemyController : MonoBehaviour
             {
                 _isAction = true;
                 _actionLoader.LoadAction(skill.SkillAction);
+                Animator.SetFloat("Blend", 0f);
+                return;
             }
         }
+            Dash();
     }
 
     private void DistanceSkillPlay()
     {
         if (!_isAction)
         {
-            var targetDistance = Vector3.Distance(transform.position, _target.transform.position);
+            var targetDistance = Vector3.Distance(transform.position, Target.transform.position);
             var skill = SearchSkill(targetDistance);
 
             if (skill != null)
             {
                 _isAction = true;
                 _actionLoader.LoadAction(skill.SkillAction);
-            }
-            else
-            {
-                Dash();
+                Animator.SetFloat("Blend", 0f);
+                return;
             }
         }
+        Dash();
     }
 
 
@@ -116,7 +174,16 @@ public class EnemyController : MonoBehaviour
 
     private void Look()
     {
-        transform.LookAt(_target.transform, transform.up);
+        Vector3 direction = Target.transform.position - transform.position;
+        direction.y = 0;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Animator.SetFloat("Blend", 0f);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            // スムーズに回転するためにSlerpを使用
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
     }
 
 }
