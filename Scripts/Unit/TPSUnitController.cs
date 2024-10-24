@@ -1,8 +1,6 @@
 ﻿using develop_common;
 using DG.Tweening;
 using JetBrains.Annotations;
-using RPGCharacterAnims.Actions;
-using RPGCharacterAnims.Lookups;
 using System;
 using System.Collections;
 using System.Collections.Generic;
