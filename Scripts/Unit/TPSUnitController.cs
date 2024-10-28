@@ -268,7 +268,6 @@ namespace develop_tps
                         _rigidBody.isKinematic = true;
                     }
 
-            return;
             if (CanJump)
                 _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
             else

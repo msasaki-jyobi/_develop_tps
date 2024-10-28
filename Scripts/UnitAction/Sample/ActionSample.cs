@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace develop_common
-{ 
+{
     public class ActionSample : MonoBehaviour
     {
         [SerializeField] private InputReader _inputReader;
@@ -14,6 +14,7 @@ namespace develop_common
 
         [SerializeField] private GameObject _actionDataC;
         [SerializeField] private GameObject _actionDataX;
+        [SerializeField] private List<GameObject> _actionDatasZ;
 
         public int DownValue = 0;
 
@@ -36,6 +37,11 @@ namespace develop_common
             if (Input.GetKeyDown(KeyCode.X))
             {
                 _unitActionLoader.LoadAction(_actionDataX);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                foreach (var ac in _actionDatasZ)
+                    _unitActionLoader.LoadAction(ac);
             }
         }
 
