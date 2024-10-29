@@ -2558,6 +2558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stateController: {fileID: 680506945}
   UnitStatus: 0
+  _isDebugLog: 1
 --- !u!114 &680506949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5536,6 +5537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stateController: {fileID: 1586431311}
   UnitStatus: 0
+  _isDebugLog: 0
 --- !u!114 &1586431311
 MonoBehaviour:
   m_ObjectHideFlags: 0
