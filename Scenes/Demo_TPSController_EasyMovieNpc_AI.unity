@@ -2490,10 +2490,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 680506950}
-  _crossAnimationTimer: 0
+  _crossAnimationTimer: 0.1
   _defaultAnimatorState: 
   _defaultRandomAnimatorState: []
   AllStates: []
+  FrameRate: 60
+  TotalFrames: 60
 --- !u!136 &680506946
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4645,12 +4647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1209038209 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2686890238580842670, guid: 7856c197eb4c77840878eba92e1c48b7,
-    type: 3}
-  m_PrefabInstance: {fileID: 334934777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!64 &1221229046
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5555,6 +5551,8 @@ MonoBehaviour:
   _defaultAnimatorState: 
   _defaultRandomAnimatorState: []
   AllStates: []
+  FrameRate: 60
+  TotalFrames: 60
 --- !u!136 &1586431312
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7122,16 +7120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65c8fb3d3d527242949c208d9b5f16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 680506943}
-  Entity: {fileID: 0}
-  FaceImage: {fileID: 0}
-  PartToAttach: {fileID: 1209038209}
-  TargetObject: {fileID: 2064331714}
-  BodyTargets: []
-  PositionOffset: {x: 0, y: 0, z: 0}
-  RotationOffset: {x: 0, y: 0, z: 0}
-  IsDebugK: 1
-  delayBetweenSteps: 10
 --- !u!135 &2064331711
 SphereCollider:
   m_ObjectHideFlags: 0
