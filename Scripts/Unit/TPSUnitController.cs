@@ -21,9 +21,7 @@ namespace develop_tps
         [SerializeField] private AnimatorStateController _animatorStateController;
         [SerializeField] private UnitActionLoader _unitActionLoader;
         [SerializeField] private TPSCliffUp _tpsCliffUp;
-
-        [Header("LineDatas")]
-        [SerializeField] private LineData _groundLineData;
+        [SerializeField] private UnitGround _unitGround;
 
         [Header("Input Parameter")]
         [SerializeField] private float _moveSpeed = 5f;
@@ -44,10 +42,14 @@ namespace develop_tps
         [SerializeField] private float _slopeDistance = 0.2f;
 
         [Header("Ignore Input")]
-        [SerializeField] private bool _isNotVertical;
-        [SerializeField] private bool _isNotHorizontal;
-        [SerializeField] private bool _isNotJump;
-        [SerializeField] private bool _isNotCrouth;
+        [SerializeField] private bool _isDisbleVertical;
+        [SerializeField] private bool _isDisbleHorizontal;
+        [SerializeField] private bool _isDisbleJump;
+        [SerializeField] private bool _isDisbleJumpMotion;
+        [Tooltip("Animatorの[2]LayerのWeightが1になったらしゃがむように設定する必要あり(AvatarMask & Crouth用デフォルトステート)")]
+        [SerializeField] private bool _isEnableCrouth;
+        [Tooltip("Animatorに`ClimbUp`が必要")]
+        [SerializeField] private bool _isEnableCliff;
 
         [Header("Capsule Size")]
         [SerializeField] private CapsuleCollider _capsuleCollider;
@@ -60,8 +62,7 @@ namespace develop_tps
         public string LocomotionStateName = "Locomotion";
         public string JumpStateName = "Jump";
 
-        // Ground Check
-        public bool CanJump { private set; get; }
+
 
         // private Parameter
         private float _defaultSpeed;
@@ -98,9 +99,9 @@ namespace develop_tps
             // Handle InputReader
             _inputReader.MoveEvent += OnMoveHandle;
             _inputReader.LookEvent += OnLookHandle;
-            _inputReader.PrimaryFireEvent += OnFireHandle;
-            _inputReader.PrimaryJumpEventEvent += OnJumpHandle;
-            _inputReader.PrimaryDashEvent += OnDashHandle;
+            _inputReader.PrimaryR1Event += OnFireHandle;
+            _inputReader.PrimaryActionCrossEvent += OnJumpHandle;
+            _inputReader.PrimaryL2Event += OnDashHandle;
 
             // Handle ActionLoader
             _unitActionLoader.PlayActionEvent += OnPlayActionHandle;
@@ -118,7 +119,7 @@ namespace develop_tps
             _isCrouth
                 .Subscribe((x) =>
                 {
-                    if (_isNotCrouth) return;
+                    if (!_isEnableCrouth) return;
 
                     var targetWeight = x ? 1 : 0;
                     var centerY = x ? _crouthCenterY : _standCenterY;
@@ -146,13 +147,12 @@ namespace develop_tps
             // 現在のデバイスを取得する
             //Debug.Log($"Now Control: {_inputReader.GetCurrentInputDevice()}");
 
-            CheckGround();
             if (!IsCheckInputControl()) return;
             //if (_unitStatus.UnitState != EUnitState.Play) return;
             Rotation();
             Motion();
 
-            if (!_isNotCrouth)
+            if (_isEnableCrouth)
                 if (Input.GetKeyDown(KeyCode.C))
                     _isCrouth.Value = !_isCrouth.Value;
 
@@ -209,7 +209,7 @@ namespace develop_tps
             if (!IsCheckInputControl()) return;
             if (!IsJump) return;
 
-            if (CanJump)
+            if (_unitGround.CanJump)
                 _jumpCount = 0;
 
             if (_jumpCount < _jumpLimit)
@@ -255,32 +255,31 @@ namespace develop_tps
             // 速度をAnimatorに反映する
             _animator?.SetFloat("Speed", _tpsVelocity.magnitude * _moveSpeed, 0.1f, Time.deltaTime);
 
-            if (_tpsCliffUp != null)
-                if (_tpsCliffUp.CheckCliffUp())
-                    if (!_isClimb && _unitActionLoader.UnitStatus == EUnitStatus.Ready)
-                    {
-                        _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
-                        _rigidBody.velocity = Vector3.zero;
-                        _isClimb = true;
+            if (_isEnableCliff)
+                if (_tpsCliffUp != null)
+                    if (_tpsCliffUp.CheckCliffUp())
+                        if (!_isClimb && _unitActionLoader.UnitStatus == EUnitStatus.Ready)
+                        {
+                            _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
+                            _rigidBody.velocity = Vector3.zero;
+                            _isClimb = true;
 
-                        // 操作不可
-                        _unitActionLoader.ChangeStatus(EUnitStatus.Executing);
-                        _rigidBody.isKinematic = true;
-                    }
+                            // 操作不可
+                            _unitActionLoader.ChangeStatus(EUnitStatus.Executing);
+                            _rigidBody.isKinematic = true;
+                        }
 
-            if (CanJump)
-                _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
-            else
-                _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.Loop, false);
+            if (!_isDisbleJumpMotion)
+            {
+                if (_unitGround.CanJump)
+                    _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
+                else
+                    _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.Loop, false);
+            }
+
         }
 
-        private void CheckGround()
-        {
-            CanJump = UtilityFunction.CheckLineData(_groundLineData, transform);
-            //if (!_canJump)
-            //    if (_wallCheckData != null)
-            //        _actionLoader.LoadActionData(new List<UnitActionData>() { _wallCheckData });
-        }
+
         /// <summary>
         /// 角度を検知して移動できるか判定
         /// </summary>
@@ -371,26 +370,26 @@ namespace develop_tps
 
         private void OnMoveHandle(Vector2 movement)
         {
-            _InputX = !_isNotVertical ? movement.x : 0;
-            _InputY = !_isNotHorizontal ? movement.y : 0;
+            _InputX = !_isDisbleVertical ? movement.x : 0;
+            _InputY = !_isDisbleHorizontal ? movement.y : 0;
         }
         private void OnLookHandle(Vector2 lookValue)
         {
             //Debug.Log($"Look:{lookValue}");
         }
-        private void OnFireHandle(bool fire)
+        private void OnFireHandle(bool fire, EInputReader key)
         {
             //Debug.Log($"Fire:{fire}");
             //KeyType = EKeyType.Fire1;
             //_actionLoader.LoadActionData();
         }
-        private void OnJumpHandle(bool jump)
+        private void OnJumpHandle(bool jump, EInputReader key)
         {
-            if (_isNotJump) return;
+            if (_isDisbleJump) return;
             IsJump = jump;
             //KeyType = EKeyType.Jump;
         }
-        private void OnDashHandle(bool dash)
+        private void OnDashHandle(bool dash, EInputReader key)
         {
             _isDash = dash;
             if (!_isCrouth.Value)

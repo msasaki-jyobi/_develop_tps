@@ -1,5 +1,6 @@
 using develop_common;
 using develop_tps;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,16 @@ namespace develop_common
         [SerializeField] private InputReader _inputReader;
         [SerializeField] private UnitActionLoader _unitActionLoader;
 
-        [SerializeField] private GameObject _actionDataC;
-        [SerializeField] private GameObject _actionDataX;
-        [SerializeField] private List<GameObject> _actionDatasZ;
+        [SerializeField] private List<GameObject> _actionDataR1;
+        [SerializeField] private List<GameObject> _actionDataR2;
+        [SerializeField] private List<GameObject> _actionDataL1;
+        [SerializeField] private List<GameObject> _actionDataL2;
+        [SerializeField] private List<GameObject> _actionDataCross;
+        [SerializeField] private List<GameObject> _actionDataSquare;
+        [SerializeField] private List<GameObject> _actionDataTriangle;
+        [SerializeField] private List<GameObject> _actionDataCircle;
+
+
 
         public int DownValue = 0;
 
@@ -24,25 +32,105 @@ namespace develop_common
             _unitActionLoader.FinishAdditiveParameterEvent += OnFinishAdditiveParameterHandle;
 
             _inputReader.MoveEvent += OnMoveHandle;
+            _inputReader.PrimaryR1Event += OnR1Handle;
+            _inputReader.PrimaryR2Event += OnR2Handle;
+            _inputReader.PrimaryL1Event += OnL1Handle;
+            _inputReader.PrimaryL2Event += OnL2Handle;
+            _inputReader.PrimaryActionCrossEvent += OnCrossHandle;
+            _inputReader.PrimaryActionSquareEvent += OnSquareHandle;
+            _inputReader.PrimaryActionTriangleEvent += OnTriangleHandle;
+            _inputReader.PrimaryActionCircleEvent += OnCircleHandle;
+        }
+
+        private void OnCircleHandle(bool arg1, EInputReader reader)
+        {
+            if(arg1)
+            {
+                foreach (var ac in _actionDataCircle)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnTriangleHandle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataTriangle)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnSquareHandle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataSquare)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnCrossHandle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataCross)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnL2Handle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataL2)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnL1Handle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataL1)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnR2Handle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataR2)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
+        }
+
+        private void OnR1Handle(bool arg1, EInputReader reader)
+        {
+            if (arg1)
+            {
+                foreach (var ac in _actionDataR1)
+                    _unitActionLoader.LoadAction(ac, reader);
+            }
         }
 
         private void Update()
         {
 
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                _unitActionLoader.LoadAction(_actionDataC);
-            }
+            //if (Input.GetKeyDown(KeyCode.C))
+            //{
+            //    _unitActionLoader.LoadAction(_actionDataC, EInputReader.R1);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                _unitActionLoader.LoadAction(_actionDataX);
-            }
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                foreach (var ac in _actionDatasZ)
-                    _unitActionLoader.LoadAction(ac);
-            }
+            //if (Input.GetKeyDown(KeyCode.X))
+            //{
+            //    _unitActionLoader.LoadAction(_actionDataX, EInputReader.R2);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    foreach (var ac in _actionDatasZ)
+            //        _unitActionLoader.LoadAction(ac, EInputReader.Square);
+            //}
         }
 
         private void OnMoveHandle(Vector2 movement)

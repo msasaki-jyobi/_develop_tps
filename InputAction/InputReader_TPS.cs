@@ -48,7 +48,7 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""R1"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
                     ""expectedControlType"": ""Button"",
@@ -57,7 +57,34 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""R2"",
+                    ""type"": ""Button"",
+                    ""id"": ""ada7a3e8-d889-467c-a7a6-cfaab78c4c75"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a58136f5-7947-40e9-bd89-5be48cb0db49"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L2"",
+                    ""type"": ""Button"",
+                    ""id"": ""0db5b040-62d0-4f91-8bc4-9406944918e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActonCross"",
                     ""type"": ""Button"",
                     ""id"": ""2c9d1615-a318-4b9c-aa80-b78a8423916d"",
                     ""expectedControlType"": ""Button"",
@@ -66,9 +93,117 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""ActionSquare"",
                     ""type"": ""Button"",
-                    ""id"": ""26929217-7891-4d64-8fbd-1a11a01febf7"",
+                    ""id"": ""5ce348c3-1ba6-475b-897a-2f2bbb6f98b5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionTriangle"",
+                    ""type"": ""Button"",
+                    ""id"": ""ead0c4bf-b12a-4cb6-808f-ee7969b143b3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionCircle"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec8afb4d-e603-4bad-b0ab-a1948996d2fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""64a98440-f907-4856-b9c1-357ab8aa587a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8a7c5eb-bc28-4d36-b932-7acfd1535b1a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPad"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a726e88-5099-430d-8cb3-8a156511cf17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Home"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bfd6bb3-bbb0-41bb-a211-a6e7ee80938d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-PadDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""03ecca8d-2e29-4a02-8749-c2b58dc56ff8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-PadLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ae5ebea-90f3-402d-a6c4-b9a38cc632b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-PadUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""25615441-9aad-45d4-89fb-d882185e36af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-PadRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac1ec414-e7fa-4dea-b3db-29ab83dd4f5f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftThumb"",
+                    ""type"": ""Button"",
+                    ""id"": ""4ad74aac-8432-437f-91a0-0d4c51ddb22a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightThumb"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ea891ed-01f1-42f3-aadd-7cb6ac8979a3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -243,56 +378,23 @@ namespace UnityEngine.InputSystem
                 },
                 {
                     ""name"": """",
+                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Touch"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8255d333-5683-4943-a58a-ccb207ff1dce"",
-                    ""path"": ""<XRController>/{PrimaryAction}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Fire"",
+                    ""action"": ""R1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -303,7 +405,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""ActonCross"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -314,29 +416,194 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""ActonCross"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a93d86c3-1289-4493-a53c-323c9d9e3d03"",
+                    ""id"": ""c503b49a-a9ee-4f3e-9d2b-d54cc6941cdb"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a04ccb4-f591-457b-95fb-a10ab71ef3f9"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionSquare"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d9d739b5-49ef-4ac7-a9a4-dafbee8df7ef"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionTriangle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1ea65df-07b8-4dbd-af63-7ec320137027"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionTriangle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85972edb-d7ae-41ac-9c97-2d9b4f603cd1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionCircle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""471e0ebe-bba3-4bf7-a336-e59dd1fce6af"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad5ba800-b34b-4001-a4b8-fcd88f34d4cb"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4c89ab1-317f-438f-b57d-9cb30a144d1f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a41594b-af37-41d8-96e7-da1f3584e2ca"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Home"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3df9f865-35ff-4794-8d16-758f5ce7de4d"",
+                    ""path"": ""<Mouse>/backButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-PadDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b18ae94f-90a0-458d-9fbc-50709e0035f2"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-PadLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5e1a774-4643-488f-922c-bc5f4f505c61"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-PadRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ba89561-dd96-46b2-92a0-1ce14d65d44b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftThumb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f621abc9-4283-4b52-9e63-d5927a44bd83"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightThumb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc60c909-69aa-4550-80ae-dddc0329eb22"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93f486ca-1115-4839-a13c-c332ae2c628d"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dash"",
+                    ""action"": ""L2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8ba0f531-6bfc-415d-bb1e-1031d68f5591"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""id"": ""df9d57b1-f6bc-4825-886c-a050f3b8d521"",
+                    ""path"": ""<Mouse>/forwardButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dash"",
+                    ""action"": ""D-PadUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -926,9 +1193,24 @@ namespace UnityEngine.InputSystem
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-            m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-            m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+            m_Player_R1 = m_Player.FindAction("R1", throwIfNotFound: true);
+            m_Player_R2 = m_Player.FindAction("R2", throwIfNotFound: true);
+            m_Player_L1 = m_Player.FindAction("L1", throwIfNotFound: true);
+            m_Player_L2 = m_Player.FindAction("L2", throwIfNotFound: true);
+            m_Player_ActonCross = m_Player.FindAction("ActonCross", throwIfNotFound: true);
+            m_Player_ActionSquare = m_Player.FindAction("ActionSquare", throwIfNotFound: true);
+            m_Player_ActionTriangle = m_Player.FindAction("ActionTriangle", throwIfNotFound: true);
+            m_Player_ActionCircle = m_Player.FindAction("ActionCircle", throwIfNotFound: true);
+            m_Player_Start = m_Player.FindAction("Start", throwIfNotFound: true);
+            m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
+            m_Player_TouchPad = m_Player.FindAction("TouchPad", throwIfNotFound: true);
+            m_Player_Home = m_Player.FindAction("Home", throwIfNotFound: true);
+            m_Player_DPadDown = m_Player.FindAction("D-PadDown", throwIfNotFound: true);
+            m_Player_DPadLeft = m_Player.FindAction("D-PadLeft", throwIfNotFound: true);
+            m_Player_DPadUp = m_Player.FindAction("D-PadUp", throwIfNotFound: true);
+            m_Player_DPadRight = m_Player.FindAction("D-PadRight", throwIfNotFound: true);
+            m_Player_LeftThumb = m_Player.FindAction("LeftThumb", throwIfNotFound: true);
+            m_Player_RightThumb = m_Player.FindAction("RightThumb", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1004,18 +1286,48 @@ namespace UnityEngine.InputSystem
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_Fire;
-        private readonly InputAction m_Player_Jump;
-        private readonly InputAction m_Player_Dash;
+        private readonly InputAction m_Player_R1;
+        private readonly InputAction m_Player_R2;
+        private readonly InputAction m_Player_L1;
+        private readonly InputAction m_Player_L2;
+        private readonly InputAction m_Player_ActonCross;
+        private readonly InputAction m_Player_ActionSquare;
+        private readonly InputAction m_Player_ActionTriangle;
+        private readonly InputAction m_Player_ActionCircle;
+        private readonly InputAction m_Player_Start;
+        private readonly InputAction m_Player_Select;
+        private readonly InputAction m_Player_TouchPad;
+        private readonly InputAction m_Player_Home;
+        private readonly InputAction m_Player_DPadDown;
+        private readonly InputAction m_Player_DPadLeft;
+        private readonly InputAction m_Player_DPadUp;
+        private readonly InputAction m_Player_DPadRight;
+        private readonly InputAction m_Player_LeftThumb;
+        private readonly InputAction m_Player_RightThumb;
         public struct PlayerActions
         {
             private @InputReader_TPS m_Wrapper;
             public PlayerActions(@InputReader_TPS wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @Fire => m_Wrapper.m_Player_Fire;
-            public InputAction @Jump => m_Wrapper.m_Player_Jump;
-            public InputAction @Dash => m_Wrapper.m_Player_Dash;
+            public InputAction @R1 => m_Wrapper.m_Player_R1;
+            public InputAction @R2 => m_Wrapper.m_Player_R2;
+            public InputAction @L1 => m_Wrapper.m_Player_L1;
+            public InputAction @L2 => m_Wrapper.m_Player_L2;
+            public InputAction @ActonCross => m_Wrapper.m_Player_ActonCross;
+            public InputAction @ActionSquare => m_Wrapper.m_Player_ActionSquare;
+            public InputAction @ActionTriangle => m_Wrapper.m_Player_ActionTriangle;
+            public InputAction @ActionCircle => m_Wrapper.m_Player_ActionCircle;
+            public InputAction @Start => m_Wrapper.m_Player_Start;
+            public InputAction @Select => m_Wrapper.m_Player_Select;
+            public InputAction @TouchPad => m_Wrapper.m_Player_TouchPad;
+            public InputAction @Home => m_Wrapper.m_Player_Home;
+            public InputAction @DPadDown => m_Wrapper.m_Player_DPadDown;
+            public InputAction @DPadLeft => m_Wrapper.m_Player_DPadLeft;
+            public InputAction @DPadUp => m_Wrapper.m_Player_DPadUp;
+            public InputAction @DPadRight => m_Wrapper.m_Player_DPadRight;
+            public InputAction @LeftThumb => m_Wrapper.m_Player_LeftThumb;
+            public InputAction @RightThumb => m_Wrapper.m_Player_RightThumb;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1031,15 +1343,60 @@ namespace UnityEngine.InputSystem
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Fire.started += instance.OnFire;
-                @Fire.performed += instance.OnFire;
-                @Fire.canceled += instance.OnFire;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
-                @Dash.started += instance.OnDash;
-                @Dash.performed += instance.OnDash;
-                @Dash.canceled += instance.OnDash;
+                @R1.started += instance.OnR1;
+                @R1.performed += instance.OnR1;
+                @R1.canceled += instance.OnR1;
+                @R2.started += instance.OnR2;
+                @R2.performed += instance.OnR2;
+                @R2.canceled += instance.OnR2;
+                @L1.started += instance.OnL1;
+                @L1.performed += instance.OnL1;
+                @L1.canceled += instance.OnL1;
+                @L2.started += instance.OnL2;
+                @L2.performed += instance.OnL2;
+                @L2.canceled += instance.OnL2;
+                @ActonCross.started += instance.OnActonCross;
+                @ActonCross.performed += instance.OnActonCross;
+                @ActonCross.canceled += instance.OnActonCross;
+                @ActionSquare.started += instance.OnActionSquare;
+                @ActionSquare.performed += instance.OnActionSquare;
+                @ActionSquare.canceled += instance.OnActionSquare;
+                @ActionTriangle.started += instance.OnActionTriangle;
+                @ActionTriangle.performed += instance.OnActionTriangle;
+                @ActionTriangle.canceled += instance.OnActionTriangle;
+                @ActionCircle.started += instance.OnActionCircle;
+                @ActionCircle.performed += instance.OnActionCircle;
+                @ActionCircle.canceled += instance.OnActionCircle;
+                @Start.started += instance.OnStart;
+                @Start.performed += instance.OnStart;
+                @Start.canceled += instance.OnStart;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
+                @TouchPad.started += instance.OnTouchPad;
+                @TouchPad.performed += instance.OnTouchPad;
+                @TouchPad.canceled += instance.OnTouchPad;
+                @Home.started += instance.OnHome;
+                @Home.performed += instance.OnHome;
+                @Home.canceled += instance.OnHome;
+                @DPadDown.started += instance.OnDPadDown;
+                @DPadDown.performed += instance.OnDPadDown;
+                @DPadDown.canceled += instance.OnDPadDown;
+                @DPadLeft.started += instance.OnDPadLeft;
+                @DPadLeft.performed += instance.OnDPadLeft;
+                @DPadLeft.canceled += instance.OnDPadLeft;
+                @DPadUp.started += instance.OnDPadUp;
+                @DPadUp.performed += instance.OnDPadUp;
+                @DPadUp.canceled += instance.OnDPadUp;
+                @DPadRight.started += instance.OnDPadRight;
+                @DPadRight.performed += instance.OnDPadRight;
+                @DPadRight.canceled += instance.OnDPadRight;
+                @LeftThumb.started += instance.OnLeftThumb;
+                @LeftThumb.performed += instance.OnLeftThumb;
+                @LeftThumb.canceled += instance.OnLeftThumb;
+                @RightThumb.started += instance.OnRightThumb;
+                @RightThumb.performed += instance.OnRightThumb;
+                @RightThumb.canceled += instance.OnRightThumb;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1050,15 +1407,60 @@ namespace UnityEngine.InputSystem
                 @Look.started -= instance.OnLook;
                 @Look.performed -= instance.OnLook;
                 @Look.canceled -= instance.OnLook;
-                @Fire.started -= instance.OnFire;
-                @Fire.performed -= instance.OnFire;
-                @Fire.canceled -= instance.OnFire;
-                @Jump.started -= instance.OnJump;
-                @Jump.performed -= instance.OnJump;
-                @Jump.canceled -= instance.OnJump;
-                @Dash.started -= instance.OnDash;
-                @Dash.performed -= instance.OnDash;
-                @Dash.canceled -= instance.OnDash;
+                @R1.started -= instance.OnR1;
+                @R1.performed -= instance.OnR1;
+                @R1.canceled -= instance.OnR1;
+                @R2.started -= instance.OnR2;
+                @R2.performed -= instance.OnR2;
+                @R2.canceled -= instance.OnR2;
+                @L1.started -= instance.OnL1;
+                @L1.performed -= instance.OnL1;
+                @L1.canceled -= instance.OnL1;
+                @L2.started -= instance.OnL2;
+                @L2.performed -= instance.OnL2;
+                @L2.canceled -= instance.OnL2;
+                @ActonCross.started -= instance.OnActonCross;
+                @ActonCross.performed -= instance.OnActonCross;
+                @ActonCross.canceled -= instance.OnActonCross;
+                @ActionSquare.started -= instance.OnActionSquare;
+                @ActionSquare.performed -= instance.OnActionSquare;
+                @ActionSquare.canceled -= instance.OnActionSquare;
+                @ActionTriangle.started -= instance.OnActionTriangle;
+                @ActionTriangle.performed -= instance.OnActionTriangle;
+                @ActionTriangle.canceled -= instance.OnActionTriangle;
+                @ActionCircle.started -= instance.OnActionCircle;
+                @ActionCircle.performed -= instance.OnActionCircle;
+                @ActionCircle.canceled -= instance.OnActionCircle;
+                @Start.started -= instance.OnStart;
+                @Start.performed -= instance.OnStart;
+                @Start.canceled -= instance.OnStart;
+                @Select.started -= instance.OnSelect;
+                @Select.performed -= instance.OnSelect;
+                @Select.canceled -= instance.OnSelect;
+                @TouchPad.started -= instance.OnTouchPad;
+                @TouchPad.performed -= instance.OnTouchPad;
+                @TouchPad.canceled -= instance.OnTouchPad;
+                @Home.started -= instance.OnHome;
+                @Home.performed -= instance.OnHome;
+                @Home.canceled -= instance.OnHome;
+                @DPadDown.started -= instance.OnDPadDown;
+                @DPadDown.performed -= instance.OnDPadDown;
+                @DPadDown.canceled -= instance.OnDPadDown;
+                @DPadLeft.started -= instance.OnDPadLeft;
+                @DPadLeft.performed -= instance.OnDPadLeft;
+                @DPadLeft.canceled -= instance.OnDPadLeft;
+                @DPadUp.started -= instance.OnDPadUp;
+                @DPadUp.performed -= instance.OnDPadUp;
+                @DPadUp.canceled -= instance.OnDPadUp;
+                @DPadRight.started -= instance.OnDPadRight;
+                @DPadRight.performed -= instance.OnDPadRight;
+                @DPadRight.canceled -= instance.OnDPadRight;
+                @LeftThumb.started -= instance.OnLeftThumb;
+                @LeftThumb.performed -= instance.OnLeftThumb;
+                @LeftThumb.canceled -= instance.OnLeftThumb;
+                @RightThumb.started -= instance.OnRightThumb;
+                @RightThumb.performed -= instance.OnRightThumb;
+                @RightThumb.canceled -= instance.OnRightThumb;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1243,9 +1645,24 @@ namespace UnityEngine.InputSystem
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnFire(InputAction.CallbackContext context);
-            void OnJump(InputAction.CallbackContext context);
-            void OnDash(InputAction.CallbackContext context);
+            void OnR1(InputAction.CallbackContext context);
+            void OnR2(InputAction.CallbackContext context);
+            void OnL1(InputAction.CallbackContext context);
+            void OnL2(InputAction.CallbackContext context);
+            void OnActonCross(InputAction.CallbackContext context);
+            void OnActionSquare(InputAction.CallbackContext context);
+            void OnActionTriangle(InputAction.CallbackContext context);
+            void OnActionCircle(InputAction.CallbackContext context);
+            void OnStart(InputAction.CallbackContext context);
+            void OnSelect(InputAction.CallbackContext context);
+            void OnTouchPad(InputAction.CallbackContext context);
+            void OnHome(InputAction.CallbackContext context);
+            void OnDPadDown(InputAction.CallbackContext context);
+            void OnDPadLeft(InputAction.CallbackContext context);
+            void OnDPadUp(InputAction.CallbackContext context);
+            void OnDPadRight(InputAction.CallbackContext context);
+            void OnLeftThumb(InputAction.CallbackContext context);
+            void OnRightThumb(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

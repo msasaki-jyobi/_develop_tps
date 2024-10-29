@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
                     _timer = 0;
 
                     Animator.SetFloat("Blend", 0f);
-                    _actionLoader.LoadAction(skill.SkillAction);
+                    _actionLoader.LoadAction(skill.SkillAction, EInputReader.R1);
                 }
             }
         }
@@ -116,7 +116,7 @@ public class EnemyController : MonoBehaviour
             if (skill != null)
             {
                 _isAction = true;
-                _actionLoader.LoadAction(skill.SkillAction);
+                _actionLoader.LoadAction(skill.SkillAction, EInputReader.R1);
                 Animator.SetFloat("Blend", 0f);
                 return;
             }
@@ -134,7 +134,7 @@ public class EnemyController : MonoBehaviour
             if (skill != null)
             {
                 _isAction = true;
-                _actionLoader.LoadAction(skill.SkillAction);
+                _actionLoader.LoadAction(skill.SkillAction, EInputReader.R1);
                 Animator.SetFloat("Blend", 0f);
                 return;
             }
