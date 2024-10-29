@@ -272,9 +272,9 @@ namespace develop_tps
             if (!_isDisbleJumpMotion)
             {
                 if (_unitGround.CanJump)
-                    _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, false);
+                    _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.SinglePlay, false);
                 else
-                    _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.Loop, false);
+                    _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.SinglePlay, false);
             }
 
         }
