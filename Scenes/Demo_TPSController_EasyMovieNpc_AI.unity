@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 680506950}
-  _crossAnimationTimer: 0.2
+  _crossAnimationTimer: 0
   _defaultAnimatorState: 
   _defaultRandomAnimatorState: []
   AllStates: []
@@ -2576,6 +2576,7 @@ MonoBehaviour:
   - {fileID: 867914962149053577, guid: c5acbf728588c6d42963cf7275e326b0, type: 3}
   - {fileID: 867914962149053577, guid: 2117a5ef90ec15f47b60e4b9ad72a015, type: 3}
   - {fileID: 867914962149053577, guid: 10efeb7580ad0ba45b6923efd5275ef7, type: 3}
+  - {fileID: 867914962149053577, guid: 601b8c3639457b94a804fe38daba81cb, type: 3}
   _actionDataR2: []
   _actionDataL1: []
   _actionDataL2: []
@@ -5548,7 +5549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 1586431314}
-  _crossAnimationTimer: 0.2
+  _crossAnimationTimer: 0
   _defaultAnimatorState: 
   _defaultRandomAnimatorState: []
   AllStates: []
