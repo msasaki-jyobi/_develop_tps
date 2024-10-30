@@ -327,7 +327,7 @@ namespace develop_tps
         }
         private void OnFinishActionHandle(ActionBase actionBase)
         {
-            Debug.Log($"Finish! {actionBase}");
+           // Debug.Log($"Finish! {actionBase}");
         }
 
         private void OnFinishMotionHandle(string stateName, bool flg)
@@ -346,7 +346,7 @@ namespace develop_tps
 
         private void OnFrameResetVelocityHandle()
         {
-            Debug.Log("Reset");
+            //Debug.Log("Reset");
             isKnockedBack = false;
             knockbackDirection = Vector3.zero;
             knockbackCounter = 0;
