@@ -106,7 +106,6 @@ namespace develop_tps
             // Handle ActionLoader
             _unitActionLoader.PlayActionEvent += OnPlayActionHandle;
             _unitActionLoader.FinishActionEvent += OnFinishActionHandle;
-            _unitActionLoader.FrameFouceEvent += OnFrameFouceHandle;
             _unitActionLoader.FrameResetVelocityEvent += OnFrameResetVelocityHandle;
 
             // Handle Motion
@@ -316,18 +315,7 @@ namespace develop_tps
             if (_unitActionLoader.UnitStatus == EUnitStatus.Executing) check = false;
             return check;
         }
-        /// <summary>
-        /// Velocity knockback
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="force"></param>
-        public void Knockback(Vector3 direction)
-        {
-            // プレイヤーが向いている方向に合わせて力を加える
-            Vector3 localForce = transform.forward * direction.z + transform.right * direction.x + transform.up * direction.y;
-            // Rigidbody に力を加える (Impulse モードで瞬間的に力を加える)
-            _rigidBody.AddForce(localForce, ForceMode.Impulse);
-        }
+
 
         private void OnPlayActionHandle(ActionBase actionBase)
         {
@@ -355,10 +343,7 @@ namespace develop_tps
             }
         }
 
-        private void OnFrameFouceHandle(Vector3 power)
-        {
-            Knockback(power);
-        }
+
         private void OnFrameResetVelocityHandle()
         {
             Debug.Log("Reset");
