@@ -1,4 +1,3 @@
-using develop_common;
 using develop_tps;
 using System;
 using System.Collections;
@@ -10,7 +9,7 @@ namespace develop_common
 {
     public class ActionSample : MonoBehaviour
     {
-        [SerializeField] private InputReader _inputReader;
+        [SerializeField] private develop_tps.InputReader _inputReader;
         [SerializeField] private UnitActionLoader _unitActionLoader;
 
         [SerializeField] private List<GameObject> _actionDataR1;
@@ -181,6 +180,21 @@ namespace develop_common
                     }
                     break;
             }
+        }
+
+        // Animatorでよくあるモーション用関数
+        private void FootR()
+        {
+
+        }
+        // Animatorでよくあるモーション用関数
+        private void FootL()
+        {
+
+        }
+        private void Hit()
+        {
+
         }
     }
 }
