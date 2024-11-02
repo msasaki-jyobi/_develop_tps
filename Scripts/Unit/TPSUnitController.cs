@@ -264,7 +264,7 @@ namespace develop_tps
                             _isClimb = true;
 
                             // 操作不可
-                            _unitActionLoader.ChangeStatus(EUnitStatus.Executing);
+                            _unitActionLoader.ChangeStatus(EUnitStatus.Executing, 3311);
                             _rigidBody.isKinematic = true;
                         }
 
@@ -312,7 +312,7 @@ namespace develop_tps
         {
             bool check = true;
             //if (IsNotInputReader) check = false; // 操作不可
-            if (_unitActionLoader.UnitStatus == EUnitStatus.Executing) check = false;
+            if (_unitActionLoader.UnitStatus != EUnitStatus.Ready) check = false;
             return check;
         }
 
@@ -338,7 +338,7 @@ namespace develop_tps
                 _isClimb = false;
 
                 // 操作可能
-                _unitActionLoader.ChangeStatus(EUnitStatus.Ready);
+                _unitActionLoader.ChangeStatus(EUnitStatus.Ready, 2266);
                 _rigidBody.isKinematic = false;
             }
         }
