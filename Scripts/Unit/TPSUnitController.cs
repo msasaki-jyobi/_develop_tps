@@ -270,10 +270,13 @@ namespace develop_tps
 
             if (!_isDisbleJumpMotion)
             {
-                if (_unitGround.CanJump)
-                    _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.SinglePlay, false);
-                else
-                    _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.SinglePlay, false);
+                if(!_isClimb)
+                {
+                    if (_unitGround.CanJump)
+                        _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.SinglePlay, false);
+                    else
+                        _animatorStateController?.StatePlay(JumpStateName, EStatePlayType.SinglePlay, false);
+                }
             }
 
         }
@@ -334,12 +337,12 @@ namespace develop_tps
         {
             if (stateName == "ClimbUp")
             {
-                _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.Loop, true, false);
-                _isClimb = false;
-
                 // 操作可能
-                _unitActionLoader.ChangeStatus(EUnitStatus.Ready, 2266);
+                transform.Translate(0, 0.2f, 0.2f);
+                _isClimb = false;
                 _rigidBody.isKinematic = false;
+                _unitActionLoader.ChangeStatus(EUnitStatus.Ready, 2266);
+                _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.SinglePlay, true, false);
             }
         }
 

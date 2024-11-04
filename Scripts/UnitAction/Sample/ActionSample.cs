@@ -150,7 +150,6 @@ namespace develop_common
             switch (parameterName)
             {
                 case "Kousoku":
-                    Debug.Log($"{parameterName}, {value} Hello StartÅI");
                     if (TryGetComponent<AnimatorStateController>(out var controller))
                     {
                         //controller.StatePlay("State1", EStatePlayType.SinglePlay, false);
@@ -168,7 +167,6 @@ namespace develop_common
             switch (parameterName)
             {
                 case "Kousoku":
-                    Debug.Log($"{parameterName}, {value} Get FinishÅI");
                     if (TryGetComponent<AnimatorStateController>(out var controller0))
                     {
                         //controller0.StatePlay("State1", EStatePlayType.SinglePlay, false);
