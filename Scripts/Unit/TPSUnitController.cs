@@ -57,6 +57,7 @@ namespace develop_tps
         [SerializeField] private float _standHeight = 1.8f;
         [SerializeField] private float _crouthCenterY = 0.68f;
         [SerializeField] private float _crouthHeight = 1.33f;
+        [SerializeField] private Vector3 _climbUpTranslate = new Vector3(0, 0.2f, 0.2f);
 
         [Header("Motion")]
         public string LocomotionStateName = "Locomotion";
@@ -338,7 +339,7 @@ namespace develop_tps
             if (stateName == "ClimbUp")
             {
                 // 操作可能
-                transform.Translate(0, 0.2f, 0.2f);
+                transform.Translate(_climbUpTranslate);
                 _isClimb = false;
                 _rigidBody.isKinematic = false;
                 _unitActionLoader.ChangeStatus(EUnitStatus.Ready, 2266);
