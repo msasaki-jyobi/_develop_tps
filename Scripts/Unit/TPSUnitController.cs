@@ -258,7 +258,7 @@ namespace develop_tps
             if (_isEnableCliff)
                 if (_tpsCliffUp != null)
                     if (_tpsCliffUp.CheckCliffUp())
-                        if (!_isClimb && _unitActionLoader.UnitStatus == EUnitStatus.Ready)
+                        if (!_isClimb && _unitActionLoader.UnitStatus.Value == EUnitStatus.Ready)
                         {
                             _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
                             _rigidBody.velocity = Vector3.zero;
@@ -316,7 +316,7 @@ namespace develop_tps
         {
             bool check = true;
             //if (IsNotInputReader) check = false; // 操作不可
-            if (_unitActionLoader.UnitStatus != EUnitStatus.Ready) check = false;
+            if (_unitActionLoader.UnitStatus.Value != EUnitStatus.Ready) check = false;
             return check;
         }
 
