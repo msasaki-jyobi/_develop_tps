@@ -14,16 +14,18 @@ namespace develop_tps
     public class TPSUnitController : MonoBehaviour
     {
         [Header("Components")]
+        [Header("Player Only")]
         [SerializeField] private InputReader _inputReader;
+        [SerializeField] private TPSCliffUp _tpsCliffUp;
+        [Header("Player and Enemy")]
         [SerializeField] private Camera _camera;
         [SerializeField] private Rigidbody _rigidBody;
         [SerializeField] private Animator _animator;
         [SerializeField] private AnimatorStateController _animatorStateController;
         [SerializeField] private UnitActionLoader _unitActionLoader;
-        [SerializeField] private TPSCliffUp _tpsCliffUp;
         [SerializeField] private UnitGround _unitGround;
 
-        [Header("Input Parameter")]
+        [Header("Input Player Parameter")]
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _dashRange = 1.5f;
         [SerializeField] private float _stamina = 10f;
@@ -71,8 +73,8 @@ namespace develop_tps
         private int _jumpCount;
 
         // private Input Parameter
-        private float _InputX;
-        private float _InputY;
+        public float InputX;
+        public float InputY;
         private Vector3 _tpsVelocity;
         private Quaternion _targetRotation;
         private float _rotateSpeed = 600f;
@@ -97,13 +99,6 @@ namespace develop_tps
 
         private void Start()
         {
-            // Handle InputReader
-            _inputReader.MoveEvent += OnMoveHandle;
-            _inputReader.LookEvent += OnLookHandle;
-            _inputReader.PrimaryR1Event += OnFireHandle;
-            _inputReader.PrimaryActionCrossEvent += OnJumpHandle;
-            _inputReader.PrimaryL2Event += OnDashHandle;
-
             // Handle ActionLoader
             _unitActionLoader.PlayActionEvent += OnPlayActionHandle;
             _unitActionLoader.FinishActionEvent += OnFinishActionHandle;
@@ -111,6 +106,16 @@ namespace develop_tps
 
             // Handle Motion
             _animatorStateController.FinishMotionEvent += OnFinishMotionHandle;
+
+            if(_inputReader != null)
+            {
+                // Handle InputReader
+                _inputReader.MoveEvent += OnMoveHandle;
+                _inputReader.LookEvent += OnLookHandle;
+                _inputReader.PrimaryR1Event += OnFireHandle;
+                _inputReader.PrimaryActionCrossEvent += OnJumpHandle;
+                _inputReader.PrimaryL2Event += OnDashHandle;
+            }
 
             // Init Parameter
             _defaultSpeed = _moveSpeed;
@@ -152,12 +157,13 @@ namespace develop_tps
             Rotation();
             Motion();
 
-            if (_isEnableCrouth)
-                if (Input.GetKeyDown(KeyCode.C))
-                    _isCrouth.Value = !_isCrouth.Value;
+            if (Input.GetKeyDown(KeyCode.C))
+                if (_inputReader != null)
+                    if (_isEnableCrouth)
+                        _isCrouth.Value = !_isCrouth.Value;
 
             // Stamina
-            if (_staminaTimer >= 0 && (_InputX != 0 || _InputY != 0) && _isDash)
+            if (_staminaTimer >= 0 && (InputX != 0 || InputY != 0) && _isDash)
                 _staminaTimer -= Time.deltaTime;
             else if (_staminaTimer <= _stamina)
                 _staminaTimer += Time.deltaTime * _staminaHealSpeed;
@@ -237,7 +243,7 @@ namespace develop_tps
 
             // カメラから見て方角を決める
             var tpsHorizontalRotation = Quaternion.AngleAxis(rotY, Vector3.up);
-            _tpsVelocity = tpsHorizontalRotation * new Vector3(_InputX, 0, _InputY).normalized;
+            _tpsVelocity = tpsHorizontalRotation * new Vector3(InputX, 0, InputY).normalized;
 
             // ユニットの回転処理
             var rotationSpeed = _rotateSpeed * Time.deltaTime;
@@ -271,7 +277,7 @@ namespace develop_tps
 
             if (!_isDisbleJumpMotion)
             {
-                if(!_isClimb)
+                if (!_isClimb)
                 {
                     if (_unitGround.CanJump)
                         _animatorStateController?.StatePlay(LocomotionStateName, EStatePlayType.SinglePlay, false);
@@ -331,7 +337,7 @@ namespace develop_tps
         }
         private void OnFinishActionHandle(ActionBase actionBase)
         {
-           // Debug.Log($"Finish! {actionBase}");
+            // Debug.Log($"Finish! {actionBase}");
         }
 
         private void OnFinishMotionHandle(string stateName, bool flg)
@@ -359,8 +365,8 @@ namespace develop_tps
 
         private void OnMoveHandle(Vector2 movement)
         {
-            _InputX = !_isDisbleVertical ? movement.x : 0;
-            _InputY = !_isDisbleHorizontal ? movement.y : 0;
+            InputX = !_isDisbleVertical ? movement.x : 0;
+            InputY = !_isDisbleHorizontal ? movement.y : 0;
         }
         private void OnLookHandle(Vector2 lookValue)
         {
