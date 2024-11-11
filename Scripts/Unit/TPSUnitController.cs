@@ -24,6 +24,7 @@ namespace develop_tps
         [SerializeField] private AnimatorStateController _animatorStateController;
         [SerializeField] private UnitActionLoader _unitActionLoader;
         [SerializeField] private UnitGround _unitGround;
+        [SerializeField] private UnitHealth _unitHealth;
 
         [Header("Input Player Parameter")]
         [SerializeField] private float _moveSpeed = 5f;
@@ -64,8 +65,6 @@ namespace develop_tps
         [Header("Motion")]
         public string LocomotionStateName = "Locomotion";
         public string JumpStateName = "Jump";
-
-
 
         // private Parameter
         private float _defaultSpeed;
@@ -142,6 +141,13 @@ namespace develop_tps
 
             // Stamina
             _staminaTimer = _stamina;
+
+            // ダメージ時の解除など（Climb）
+            if (_unitHealth != null)
+            {
+                _unitHealth.DamageActionEvent += OnDamageActionHandle;
+            }
+            _unitActionLoader.PlayActionEvent += OnLoadActionHandle;
         }
         private void Update()
         {
@@ -268,10 +274,9 @@ namespace develop_tps
                         {
                             _animatorStateController?.StatePlay("ClimbUp", EStatePlayType.SinglePlay, true, true);
                             _rigidBody.velocity = Vector3.zero;
-                            _isClimb = true;
-
                             // 操作不可
                             _unitActionLoader.ChangeStatus(EUnitStatus.Executing, 3311);
+                            _isClimb = true;
                             _rigidBody.isKinematic = true;
                         }
 
@@ -365,6 +370,7 @@ namespace develop_tps
 
         private void OnMoveHandle(Vector2 movement)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             InputX = !_isDisbleVertical ? movement.x : 0;
             InputY = !_isDisbleHorizontal ? movement.y : 0;
         }
@@ -380,12 +386,14 @@ namespace develop_tps
         }
         private void OnJumpHandle(bool jump, EInputReader key)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (_isDisbleJump) return;
             IsJump = jump;
             //KeyType = EKeyType.Jump;
         }
         private void OnDashHandle(bool dash, EInputReader key)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             _isDash = dash;
             if (!_isCrouth.Value)
                 _moveSpeed = dash ? _defaultSpeed * _dashRange : _defaultSpeed;
@@ -393,7 +401,27 @@ namespace develop_tps
                 _moveSpeed = dash ? _defaultCrouchSpeed * _dashRange : _defaultCrouchSpeed;
             //KeyType = EKeyType.Dash;
         }
-
-
+        /// <summary>
+        /// UnitHealthでダメージ時に呼び出す
+        /// </summary>
+        private void OnDamageActionHandle()
+        {
+            if(_isClimb)
+            {
+                _isClimb = false;
+                _rigidBody.isKinematic = false;
+            }
+        }
+        /// <summary>
+        /// LoadAction時に呼び出す
+        /// </summary>
+        private void OnLoadActionHandle(ActionBase actionBase)
+        {
+            if (_isClimb)
+            {
+                _isClimb = false;
+                _rigidBody.isKinematic = false;
+            }
+        }
     }
 }
