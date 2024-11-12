@@ -7,10 +7,11 @@ using UnityEngine.InputSystem;
 
 namespace develop_common
 {
-    public class ActionSample : MonoBehaviour
+    public class ActionCommand : MonoBehaviour
     {
         [SerializeField] private develop_tps.InputReader _inputReader;
         [SerializeField] private UnitActionLoader _unitActionLoader;
+        [SerializeField] private develop_common.UnitHealth _unitHealth;
 
         [SerializeField] private List<GameObject> _actionDataR1;
         [SerializeField] private List<GameObject> _actionDataR2;
@@ -30,19 +31,24 @@ namespace develop_common
             _unitActionLoader.StartAdditiveParameterEvent += OnStartAdditiveParameterHandle;
             _unitActionLoader.FinishAdditiveParameterEvent += OnFinishAdditiveParameterHandle;
 
-            _inputReader.MoveEvent += OnMoveHandle;
-            _inputReader.PrimaryR1Event += OnR1Handle;
-            _inputReader.PrimaryR2Event += OnR2Handle;
-            _inputReader.PrimaryL1Event += OnL1Handle;
-            _inputReader.PrimaryL2Event += OnL2Handle;
-            _inputReader.PrimaryActionCrossEvent += OnCrossHandle;
-            _inputReader.PrimaryActionSquareEvent += OnSquareHandle;
-            _inputReader.PrimaryActionTriangleEvent += OnTriangleHandle;
-            _inputReader.PrimaryActionCircleEvent += OnCircleHandle;
+            if(_inputReader != null)
+            {
+                _inputReader.MoveEvent += OnMoveHandle;
+                _inputReader.PrimaryR1Event += OnR1Handle;
+                _inputReader.PrimaryR2Event += OnR2Handle;
+                _inputReader.PrimaryL1Event += OnL1Handle;
+                _inputReader.PrimaryL2Event += OnL2Handle;
+                _inputReader.PrimaryActionCrossEvent += OnCrossHandle;
+                _inputReader.PrimaryActionSquareEvent += OnSquareHandle;
+                _inputReader.PrimaryActionTriangleEvent += OnTriangleHandle;
+                _inputReader.PrimaryActionCircleEvent += OnCircleHandle;
+            }
+      
         }
 
         private void OnCircleHandle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if(arg1)
             {
                 foreach (var ac in _actionDataCircle)
@@ -52,6 +58,7 @@ namespace develop_common
 
         private void OnTriangleHandle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataTriangle)
@@ -61,6 +68,7 @@ namespace develop_common
 
         private void OnSquareHandle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataSquare)
@@ -70,6 +78,7 @@ namespace develop_common
 
         private void OnCrossHandle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataCross)
@@ -79,6 +88,7 @@ namespace develop_common
 
         private void OnL2Handle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataL2)
@@ -88,6 +98,7 @@ namespace develop_common
 
         private void OnL1Handle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataL1)
@@ -97,6 +108,7 @@ namespace develop_common
 
         private void OnR2Handle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataR2)
@@ -106,6 +118,7 @@ namespace develop_common
 
         private void OnR1Handle(bool arg1, EInputReader reader)
         {
+            if (_unitHealth.CurrentHealth <= 0) return;
             if (arg1)
             {
                 foreach (var ac in _actionDataR1)
@@ -178,22 +191,7 @@ namespace develop_common
                     }
                     break;
             }
-        }
-
-        // Animatorでよくあるモーション用関数
-        private void FootR()
-        {
-
-        }
-        // Animatorでよくあるモーション用関数
-        private void FootL()
-        {
-
-        }
-        private void Hit()
-        {
-
-        }
+        }  
     }
 }
 
