@@ -98,6 +98,9 @@ namespace develop_tps
 
         private void Start()
         {
+            if(_camera == null)
+                _camera = Camera.main;
+
             // Handle ActionLoader
             _unitActionLoader.PlayActionEvent += OnPlayActionHandle;
             _unitActionLoader.FinishActionEvent += OnFinishActionHandle;
