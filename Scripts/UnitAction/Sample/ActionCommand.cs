@@ -46,6 +46,22 @@ namespace develop_common
       
         }
 
+        private void OnDestroy()
+        {
+            if (_inputReader != null)
+            {
+                _inputReader.MoveEvent -= OnMoveHandle;
+                _inputReader.PrimaryR1Event -= OnR1Handle;
+                _inputReader.PrimaryR2Event -= OnR2Handle;
+                _inputReader.PrimaryL1Event -= OnL1Handle;
+                _inputReader.PrimaryL2Event -= OnL2Handle;
+                _inputReader.PrimaryActionCrossEvent -= OnCrossHandle;
+                _inputReader.PrimaryActionSquareEvent -= OnSquareHandle;
+                _inputReader.PrimaryActionTriangleEvent -= OnTriangleHandle;
+                _inputReader.PrimaryActionCircleEvent -= OnCircleHandle;
+            }
+        }
+
         private void OnCircleHandle(bool arg1, EInputReader reader)
         {
             if (_unitHealth.CurrentHealth <= 0) return;
