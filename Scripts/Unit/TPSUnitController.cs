@@ -407,7 +407,7 @@ namespace develop_tps
         /// <summary>
         /// UnitHealthでダメージ時に呼び出す
         /// </summary>
-        private void OnDamageActionHandle()
+        private void OnDamageActionHandle(int damage)
         {
             if(_isClimb)
             {
