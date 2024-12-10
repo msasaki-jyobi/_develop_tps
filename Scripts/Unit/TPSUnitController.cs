@@ -76,7 +76,7 @@ namespace develop_tps
         public float InputY;
         private Vector3 _tpsVelocity;
         private Quaternion _targetRotation;
-        private float _rotateSpeed = 600f;
+        [SerializeField] private float _rotateSpeed = 600f;
 
         // private Slope Parameter
         private float _slopeAngle;
